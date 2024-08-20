@@ -1,0 +1,173 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T4Y6HC88E2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-T4Y6HC88E2');
+</script>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ポコソフト|埼玉県春日部市・越谷市スマホアプリ開発</title>
+<meta name="description" content="埼玉県春日部市・越谷市でスマホアプリの開発を中心に活動しているシステムエンジニアです。"/>
+<link rel="shortcut icon" href="./static/images/pocosoft.ico">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.4/css/all.css">
+<!-- Bootstrap -->
+<link href="./static/css/bootstrap-4.3.1.css" rel="stylesheet">
+<link href="./static/css/style.css" rel="stylesheet">
+</head>
+<body>
+
+<header id="top-head">
+  <div class="inner">
+    <div id="mobile-head">
+      <h1 class="logo">スマホアプリ開発のPocosoft｜ポコソフト</h1>
+      <div id="nav-toggle">
+        <div> <span></span> <span></span> <span></span> </div>
+      </div>
+    </div>
+        <nav id="global-nav">
+      <ul>
+        <li><a href="index.html">HOME</a></li>
+        <li><a href="business.html">事業紹介</a></li>
+        <li><a href="works.html">開発実績</a></li>
+        <li><a href="company.html">会社概要</a></li>
+        <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSes34fwJy28yyStVuRQCEqVR5ErI-nJwoWnhgzEofW2-dBPPA/viewform?usp=sf_link" target="_blank">お問い合わせ</a></li>
+      </ul>
+    </nav>
+
+  </div>
+</header>
+<section id="message">
+  <div class="container">
+    <div class="row d-flex">
+      <div class="col-12">
+        <h2>Company<span class="">会社概要</span></h2>
+      </div>
+
+
+
+
+
+
+
+
+
+    </div>
+  </div>
+</section>
+<section id="summary">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 offset-md-4">
+        <div class="mb-5">
+          <h3>会社概要</h3>
+          <dl>
+            <dt>商号</dt>
+            <dd>株式会社ポコソフト</dd>
+          </dl>
+          <dl>
+            <dt>住所</dt>
+            <dd>埼玉県春日部市備後東2丁目31番19号</dd>
+          </dl>
+          <dl>
+            <dt>事業内容</dt>
+            <dd>
+              <ol>
+                <li>各種アプリケーションソフトの企画、設計、開発及び販売並びに保守及び顧客へのサポート業務</li>
+                <li>インターネット及びソフトウェア開発に関する総合コンサルティング業務</li>
+                <li>ウェブサイトの企画、設計、開発、運営及び販売</li>
+                <li>インターネットを利用した各種情報提供サービス</li>
+                <li>インターネット等のオンラインを利用した市場調査、宣伝及び広告等の受託</li>
+                <li>インターネット等のネットワークシステムを利用した通信販売業</li>
+                <li>前各号に附帯又は関連する一切の業務</li>
+              </ol>
+            </dd>
+          </dl>
+          <dl>
+            <dt>資本金</dt>
+            <dd>100万円</dd>
+          </dl>
+          <dl>
+            <dt>代表取締役</dt>
+            <dd>折笠 明弘</dd>
+          </dl>
+        </div>
+        <h3>沿革</h3>
+        <ul>
+          <li>2015年5月　埼玉県越谷市にてポコソフト創業。フリーランスとして活動を開始。</li>
+          <li>2019年6月　埼玉県春日部市に移転。</li>
+          <li>2020年12月 株式会社ポコソフト設立。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+<footer>
+    <div class="container">
+    <address>
+    <h3>株式会社ポコソフト</h3>
+    埼玉県春日部市備後東2丁目31番19号<br>
+    </address>
+  </div>
+</footer>
+<div id="page-top"><i class="fa fa-chevron-up"></i></div>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="./static/js/jquery-3.3.1.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="./static/js/popper.min.js"></script>
+<script src="./static/js/bootstrap-4.3.1.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script>
+(function($) {
+    $(function() {
+        var $header = $('#top-head');
+        // Nav Fixed
+        $(window).scroll(function() {
+            if ($(window).scrollTop() > 350) {
+                $header.addClass('fixed');
+            } else {
+                $header.removeClass('fixed');
+            }
+        });
+        // Nav Toggle Button
+        $('#nav-toggle').click(function(){
+            $header.toggleClass('open');
+        });
+    });
+})(jQuery);
+</script>
+<script>
+$(function(){
+// TOPに戻るボタン
+var topBtn = $('#page-top');
+topBtn.hide();
+//スクロールが150に達したらボタン表示
+$(window).scroll(function () {
+var w = $(window).width();
+if ($(this).scrollTop() > 150) {
+topBtn.fadeIn();
+} else {
+topBtn.fadeOut();
+}
+});
+//スムーススクロールでページトップへ
+topBtn.click(function () {
+$('body,html').animate({
+scrollTop: 0
+}, 500);
+return false;
+});
+});
+</script>
+</body>
+</html>
