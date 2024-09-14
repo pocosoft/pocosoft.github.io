@@ -1,1 +1,14 @@
 .DS_Store
+# bundler関係のファイル
+.bundle
+vendor/
+
+# Jekyllによって生成されるサイトファイル
+_site/
+.sass-cache/
+
+# VSCodeの設定ファイル（必要に応じて）
+.vscode/
+
+# Log files
+*.log
