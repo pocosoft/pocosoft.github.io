@@ -1,0 +1,146 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+{% include head.html %}
+<body>
+
+{% include header.html %}
+
+<section id="business">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <h2>Reqruitment<span class="">採用活動</span></h2>
+      </div>
+      <div class="col-md-7 mb-5">
+        <h3>SES事業<span style="font-size: 1rem">（システムエンジニアリングサービス）</span></h3>
+        <p class="mb-4">私たちはクライアントの事業を深く理解し、技術的なサポートは当然のこと、開発体制や運用管理等、様々な観点でアドバイス、解決してきました。もし既存の体制について、品質やスピード感にお困りの方、是非お問い合わせください。</p>
+        <h4 style="border-bottom: solid 1px #ccc;">主な実績</h4>
+        <ul>
+          <li class="mb-3">医療系アプリケーション、エンジニアとしてジョイン
+            <ul>
+              <li>iOSアプリケーション開発</li>
+              <li>ユニットテスト</li>
+              <li>オフショアサポート</li>
+            </ul>
+          </li>
+          <li class="mb-3">教育系アプリケーション、エンジニアとしてジョイン
+            <ul>
+              <li>iOSアプリケーション開発</li>
+              <li>ユニットテスト</li>
+            </ul>
+          </li>
+          <li class="mb-3">ヘルスケア系スマートフォンアプリケーション、PMとしてジョイン
+            <ul>
+              <li>バックエンド設計</li>
+              <li>WebAPI インターフェース設計</li>
+              <li>iOS, Androidアプリソースコードレビュー</li>
+              <li>人材採用サポート</li>
+            </ul>
+          </li>
+          <li class="mb-3">アンケート系スマートフォンアプリケーション、PMとしてジョイン
+            <ul>
+              <li>ユーザーテスト、UI自動テスト</li>
+              <li>オフショアサポート</li>
+              <li>iOS, Android アプリケーションのリローンチ</li>
+            </ul>
+          </li>
+          <li>教育系SNSスマートフォンアプリケーション、エンジニアとしてジョイン
+            <ul>
+              <li>iOS, Android 新規ローンチ</li>
+              <li>リードエンジニアとしてソースレビュービルド短縮スクリプトの発明等</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-7 offset-md-5 mb-4">
+        <h3>受諾開発事業</h3>
+        <p>新規事業をお考えの方、スマートフォンアプリ事業を新たにお考えの方。
+          あなたのビジネスの成功のため、最大限のサポートとアドバイスを担保いたします。</p>
+        <h4 style="border-bottom: solid 1px #ccc;">主な実績</h4>
+        <ul>
+          <li>某ソーシャルゲーム、企画、システム設計・開発・運用</li>
+          <li>金融系ブログWebサービス、システム設計・開発</li>
+          <li>美容系Webサービス、新規立ち上げ、及びシステム設計・開発・運用</li>
+        </ul>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-8">
+        <h3>自社開発事業</h3>
+        <p>自社サービスとしてスマートフォンアプリ、デスクトップアプリをご紹介させていただきます。</p>
+        <div class="poco-app">
+          <div class="app-icon"><img src="./static/images/poco-fusen-app.png" class="img-fluid" alt=""></div>
+          <h5>パソコン同期する付箋アプリ<br/><span>PocoMemo</span></h5>
+        </div>
+        <div class="app-link">
+          <div>
+            <a href="https://apps.apple.com/jp/app/pcのような付箋アプリ-pocomemo/id1537357819" target="_blank">
+              <img src="./static/images/appstore.png" alt="App store">
+            </a>
+          </div>
+          <div>
+            <a href="https://apps.microsoft.com/store/detail/pocomemo/9P1153N83JSC" target="_blank">
+              <img src="./static/images/microsoftstore.png" alt="Windows Store">
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% include footer.html %}
+
+<div id="page-top"><i class="fa fa-chevron-up"></i></div>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="./static/js/jquery-3.3.1.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="./static/js/popper.min.js"></script>
+<script src="./static/js/bootstrap-4.3.1.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script>
+(function($) {
+    $(function() {
+        var $header = $('#top-head');
+        // Nav Fixed
+        $(window).scroll(function() {
+            if ($(window).scrollTop() > 350) {
+                $header.addClass('fixed');
+            } else {
+                $header.removeClass('fixed');
+            }
+        });
+        // Nav Toggle Button
+        $('#nav-toggle').click(function(){
+            $header.toggleClass('open');
+        });
+    });
+})(jQuery);
+</script>
+<script>
+$(function(){
+// TOPに戻るボタン
+var topBtn = $('#page-top');
+topBtn.hide();
+//スクロールが150に達したらボタン表示
+$(window).scroll(function () {
+var w = $(window).width();
+if ($(this).scrollTop() > 150) {
+topBtn.fadeIn();
+} else {
+topBtn.fadeOut();
+}
+});
+//スムーススクロールでページトップへ
+topBtn.click(function () {
+$('body,html').animate({
+scrollTop: 0
+}, 500);
+return false;
+});
+});
+</script>
+</body>
+</html>
