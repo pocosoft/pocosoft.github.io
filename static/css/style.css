@@ -363,7 +363,7 @@ h4 {
   border-radius: 50%;
 }
 /*事業紹介ページ*/
-#business {
+#business, #reqruit {
   padding-bottom: 80px;
   background-image: url(../images/works-bg.png);
   background-repeat: no-repeat;
