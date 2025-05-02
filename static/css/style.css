@@ -415,17 +415,11 @@ h4 {
   width: 100%;
 }
 /*会社概要ページ*/
-#message {
-  padding-bottom: 130px;
+#summary {
+  padding-top:150px;
   background-image: url(../images/works-bg.png);
   background-repeat: no-repeat;
-  background-position: center top;
-  margin-top: 150px;
-}
-#summary {
-  background-image: url(../images/summary-bg.png);
-  background-repeat: no-repeat;
-  background-position: center top;
+  background-position: center top ;
   padding-bottom: 80px;
 }
 #summary dl {
