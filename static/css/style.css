@@ -300,21 +300,21 @@ h4 {
   background-position: center top;
   margin-top: 150px;
 }
-#works h3, #message h3, #summary h3, #business h3, #contact h3, #reqruit h3 {
+#works h3, #message h3, #business h3, #contact h3, #reqruit h3 {
   margin-bottom: 15px;
 }
-#works ul, #summary ul, #business ul {
+#works ul, #message ul, #business ul {
   padding-left:0;
   list-style-type: none;
 }
-#works ul li + li, #summary ul li + li, #business ul li + li {
+#works ul li + li, #message ul li + li, #business ul li + li {
   margin-top: 5px;
 }
-#works ul li, #summary ul li, #business ul li {
+#works ul li, #message ul li, #business ul li {
   position: relative;
   padding-left: 20px;
 }
-#works ul li:before, #summary ul li:before, #business ul li:before {
+#works ul li:before, #message ul li:before, #business ul li:before {
   content: "";
   position: absolute;
   top: .3em;
@@ -421,36 +421,30 @@ h4 {
   background-repeat: no-repeat;
   background-position: center top;
   margin-top: 150px;
-}
-#summary {
-  background-image: url(../images/summary-bg.png);
-  background-repeat: no-repeat;
-  background-position: center top;
   padding-bottom: 80px;
 }
-#summary dl {
+#message dl {
   border-bottom: 1px dotted #ccc;
   margin-bottom: 1.4rem;
   padding-bottom: 0.8rem;
 }
-#summary dl dt {
+#message dl dt {
   display: inline-block;
   float: left;
   width: 20%;
 }
-#summary dl dd {
+#message dl dd {
   display: inline-block;
   width: 80%;
 }
-#summary dl dd ol {
+#message dl dd ol {
   padding-left: 25px;
 }
-#summary dl dt {}
-#summary dl dt {
+#message dl dt {
   position: relative;
   padding-left: 20px;
 }
-#summary dl dt:before {
+#message dl dt:before {
   content: "";
   position: absolute;
   top: 0;
