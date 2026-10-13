@@ -1,0 +1,142 @@
+---
+import { Image } from 'astro:assets';
+import Metric from '../ui/Metric.astro';
+import StoreBadge from '../ui/StoreBadge.astro';
+import Icon from '../ui/Icon.astro';
+import Ja from '../ui/Ja.astro';
+import { caseMahjong, isPending } from '../../data/metrics';
+import { products } from '../../data/products';
+
+interface Props {
+  headingLevel?: 'h3' | 'h4';
+}
+const { headingLevel: Heading = 'h3' } = Astro.props;
+const product = products.find((p) => p.id === 'mahjong-monsters')!;
+const asOf = isPending(caseMahjong.asOf) ? 'TODO' : caseMahjong.asOf;
+---
+
+<article class="case">
+  <header class="case__head">
+    <div class="case__icon">
+      <Image src={product.icon} alt={`${product.name}のアイコン`} width={96} height={96} densities={[1, 2]} />
+    </div>
+    <div class="case__title">
+      <p class="case__label">CASE STUDY</p>
+      <Heading class="case__name">{product.name}</Heading>
+      <p class="case__tagline"><Ja text={product.tagline} /> ／ {product.platforms}</p>
+    </div>
+  </header>
+  <div class="case__metrics">
+    {caseMahjong.metrics.map((m) => <Metric metric={m} />)}
+  </div>
+  <footer class="case__foot">
+    <p class="case__source">※{caseMahjong.source}・{asOf}時点</p>
+    <div class="case__links">
+      {
+        product.site && (
+          <a class="case__site" href={product.site} target="_blank" rel="noopener">
+            <Icon name="globe" /> 公式サイト
+            <span class="sr-only">（新しいタブで開きます）</span>
+          </a>
+        )
+      }
+      {product.stores.map((s) => <StoreBadge store={s.id} url={s.url} product={product.name} />)}
+    </div>
+  </footer>
+</article>
+
+<style>
+  @layer components {
+    .case {
+      display: grid;
+      gap: var(--sp-7);
+      padding: clamp(var(--sp-5), 1rem + 2vw, var(--sp-8));
+      border: 1px solid var(--c-line-strong);
+      border-radius: var(--r-xl);
+      background:
+        radial-gradient(ellipse 50% 60% at 0% 0%, rgb(255 110 60 / 0.08), transparent 70%),
+        radial-gradient(ellipse 60% 60% at 100% 100%, rgb(132 186 63 / 0.1), transparent 70%),
+        var(--c-surface);
+      box-shadow: var(--edge);
+    }
+    .case__head {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-5);
+    }
+    .case__icon {
+      flex: none;
+      inline-size: clamp(4rem, 3rem + 3vw, 6rem);
+      border-radius: 22%;
+      overflow: clip;
+      box-shadow: 0 0 3rem rgb(255 110 60 / 0.22);
+    }
+    .case__icon :global(img) {
+      inline-size: 100%;
+      block-size: auto;
+    }
+    .case__title {
+      display: grid;
+      gap: var(--sp-1);
+      min-inline-size: 0;
+    }
+    .case__label {
+      font-family: var(--font-mono);
+      font-size: var(--fs-xs);
+      letter-spacing: 0.14em;
+      color: var(--c-brand);
+    }
+    .case__name {
+      font-size: var(--fs-2xl);
+      line-height: 1.2;
+    }
+    .case__tagline {
+      word-break: keep-all;
+      overflow-wrap: anywhere;
+      color: var(--c-text-muted);
+    }
+    .case__metrics {
+      display: grid;
+      gap: var(--sp-6) var(--sp-5);
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
+    }
+    .case__metrics > :global(*) {
+      padding-block-start: var(--sp-4);
+      border-block-start: 1px solid var(--c-line-strong);
+    }
+    .case__foot {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--sp-4);
+    }
+    .case__source {
+      color: var(--c-text-subtle);
+      font-size: var(--fs-xs);
+    }
+    .case__links {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--sp-3);
+    }
+    .case__site {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45em;
+      min-block-size: 2.75rem;
+      padding-inline: 1.1em;
+      border-radius: var(--r-sm);
+      border: 1px solid var(--c-line-strong);
+      color: var(--c-text);
+      font-size: var(--fs-sm);
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .case__site:hover {
+      border-color: var(--c-brand);
+      color: var(--c-brand-hi);
+    }
+  }
+</style>

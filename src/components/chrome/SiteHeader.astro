@@ -1,0 +1,232 @@
+---
+import Logo from './Logo.astro';
+import Icon from '../ui/Icon.astro';
+import { nav, site } from '../../data/site';
+
+const current = Astro.url.pathname.replace(/\.html$/, '').replace(/\/index$/, '/') || '/';
+const isCurrent = (href: string) => {
+  const path = href.split('#')[0]!.replace(/\.html$/, '') || '/';
+  return !href.includes('#') && path === current;
+};
+---
+
+<header class="site-header" data-site-header>
+  <div class="site-header__inner container">
+    <a class="site-header__brand" href="/">
+      <Logo />
+      <span class="sr-only">株式会社ポコソフト（トップページ）</span>
+    </a>
+    <nav class="site-nav" aria-label="メイン">
+      <ul role="list">
+        {
+          nav.map((item) => (
+            <li>
+              <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <a class="site-header__cta" href={site.contactUrl} target="_blank" rel="noopener">
+      お問い合わせ<span class="sr-only">（新しいタブで開きます）</span>
+    </a>
+    <button class="menu-btn" type="button" popovertarget="site-menu" aria-label="メニューを開く">
+      <Icon name="menu" size="1.5rem" />
+    </button>
+  </div>
+  <div id="site-menu" class="menu-panel" popover>
+    <div class="menu-panel__head">
+      <Logo />
+      <button class="menu-btn menu-btn--close" type="button" popovertarget="site-menu" popovertargetaction="hide" aria-label="メニューを閉じる">
+        <Icon name="close" size="1.5rem" />
+      </button>
+    </div>
+    <nav aria-label="メニュー">
+      <ul role="list" class="menu-panel__list">
+        <li><a href="/"><span class="mono">00</span>トップ</a></li>
+        {
+          nav.map((item, i) => (
+            <li>
+              <a href={item.href}>
+                <span class="mono">{String(i + 1).padStart(2, '0')}</span>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <a class="menu-panel__cta" href={site.contactUrl} target="_blank" rel="noopener">
+      お問い合わせ<Icon name="external" /><span class="sr-only">（新しいタブで開きます）</span>
+    </a>
+  </div>
+</header>
+
+<style>
+  @layer components {
+    .site-header {
+      position: fixed;
+      inset-block-start: 0;
+      inset-inline: 0;
+      z-index: 50;
+      block-size: var(--header-h);
+      transition: background-color var(--dur-2) var(--ease-out), border-color var(--dur-2) var(--ease-out);
+      border-block-end: 1px solid transparent;
+    }
+    .site-header[data-scrolled] {
+      background: rgb(7 11 8 / 0.72);
+      backdrop-filter: blur(16px) saturate(140%);
+      -webkit-backdrop-filter: blur(16px) saturate(140%);
+      border-block-end-color: var(--c-line);
+    }
+    .site-header__inner {
+      block-size: 100%;
+      display: flex;
+      align-items: center;
+      gap: var(--sp-5);
+    }
+    .site-header__brand {
+      display: inline-flex;
+      align-items: center;
+      min-block-size: var(--tap);
+      text-decoration: none;
+      margin-inline-end: auto;
+      border-radius: var(--r-xs);
+    }
+    .site-nav {
+      display: none;
+    }
+    .site-nav ul {
+      display: flex;
+      gap: var(--sp-1);
+    }
+    .site-nav a {
+      display: inline-flex;
+      align-items: center;
+      min-block-size: var(--tap);
+      padding-inline: 0.9em;
+      border-radius: var(--r-pill);
+      color: var(--c-text-muted);
+      font-size: var(--fs-sm);
+      text-decoration: none;
+      transition: color var(--dur-1), background-color var(--dur-1);
+    }
+    .site-nav a:hover,
+    .site-nav a[aria-current='page'] {
+      color: var(--c-text);
+      background: var(--c-surface);
+    }
+    .site-header__cta {
+      display: none;
+      align-items: center;
+      min-block-size: 2.5rem;
+      padding-inline: 1.1em;
+      border-radius: var(--r-pill);
+      background: var(--c-brand);
+      color: var(--c-on-brand);
+      font-weight: 700;
+      font-size: var(--fs-sm);
+      text-decoration: none;
+      transition: background-color var(--dur-1);
+    }
+    .site-header__cta:hover {
+      background: var(--c-brand-hi);
+    }
+    .menu-btn {
+      display: inline-grid;
+      place-items: center;
+      inline-size: var(--tap);
+      block-size: var(--tap);
+      border-radius: var(--r-sm);
+      border: 1px solid var(--c-line-strong);
+      background: rgb(16 25 18 / 0.6);
+      color: var(--c-text);
+    }
+    @media (min-width: 48em) {
+      .site-nav {
+        display: block;
+      }
+      .site-header__cta {
+        display: inline-flex;
+      }
+      .site-header > .site-header__inner > .menu-btn {
+        display: none;
+      }
+    }
+
+    .menu-panel {
+      position: fixed;
+      inset: 0;
+      inline-size: 100%;
+      block-size: 100%;
+      max-inline-size: none;
+      max-block-size: none;
+      margin: 0;
+      border: 0;
+      padding: 0 var(--gutter) var(--sp-7);
+      background: rgb(7 11 8 / 0.96);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      color: var(--c-text);
+      overflow-y: auto;
+    }
+    .menu-panel:popover-open {
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-6);
+    }
+    .menu-panel__head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      block-size: var(--header-h);
+    }
+    .menu-panel__list {
+      display: grid;
+      border-block-start: 1px solid var(--c-line);
+    }
+    .menu-panel__list a {
+      display: flex;
+      align-items: baseline;
+      gap: var(--sp-4);
+      padding-block: var(--sp-4);
+      border-block-end: 1px solid var(--c-line);
+      font-size: var(--fs-xl);
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .menu-panel__list .mono {
+      font-size: var(--fs-xs);
+      color: var(--c-brand);
+    }
+    .menu-panel__cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5em;
+      min-block-size: 3.5rem;
+      border-radius: var(--r-pill);
+      background: var(--c-brand);
+      color: var(--c-on-brand);
+      font-weight: 700;
+      text-decoration: none;
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .menu-panel:popover-open {
+        animation: menu-in var(--dur-2) var(--ease-out);
+      }
+    }
+    @keyframes menu-in {
+      from {
+        opacity: 0;
+        translate: 0 -0.75rem;
+      }
+    }
+  }
+</style>
+
+<script>
+  import '../../scripts/header';
+</script>

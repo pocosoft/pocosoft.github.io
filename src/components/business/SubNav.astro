@@ -1,0 +1,77 @@
+---
+interface Props {
+  items: { id: string; label: string }[];
+}
+const { items } = Astro.props;
+---
+
+<nav class="subnav" aria-label="ページ内" data-subnav>
+  <div class="subnav__scroller" data-subnav-scroller>
+    <ul role="list" class="subnav__list">
+      {
+        items.map((it) => (
+          <li>
+            <a href={`#${it.id}`}>{it.label}</a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</nav>
+
+<style>
+  @layer components {
+    .subnav {
+      position: sticky;
+      inset-block-start: var(--header-h);
+      z-index: 40;
+      background: rgb(7 11 8 / 0.82);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-block-end: 1px solid var(--c-line);
+    }
+    .subnav__scroller {
+      overflow-x: auto;
+      scrollbar-width: none;
+      scroll-snap-type: x proximity;
+      mask-image: linear-gradient(90deg, transparent, #000 var(--gutter), #000 calc(100% - var(--gutter)), transparent);
+    }
+    .subnav__scroller::-webkit-scrollbar {
+      display: none;
+    }
+    .subnav__list {
+      display: flex;
+      gap: var(--sp-2);
+      inline-size: max-content;
+      margin-inline: auto;
+      padding: var(--sp-2) var(--gutter);
+    }
+    .subnav a {
+      display: inline-flex;
+      align-items: center;
+      min-block-size: 2.5rem;
+      padding-inline: 1em;
+      border-radius: var(--r-pill);
+      border: 1px solid var(--c-line);
+      color: var(--c-text-muted);
+      font-size: var(--fs-sm);
+      text-decoration: none;
+      white-space: nowrap;
+      scroll-snap-align: center;
+      transition: color var(--dur-1), border-color var(--dur-1), background-color var(--dur-1);
+    }
+    .subnav a:hover {
+      color: var(--c-text);
+      border-color: var(--c-line-strong);
+    }
+    .subnav a[aria-current='true'] {
+      color: var(--c-on-brand);
+      background: var(--c-brand);
+      border-color: var(--c-brand);
+    }
+  }
+</style>
+
+<script>
+  import '../../scripts/subnav';
+</script>

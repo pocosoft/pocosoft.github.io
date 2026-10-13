@@ -1,0 +1,377 @@
+---
+import Eyebrow from '../ui/Eyebrow.astro';
+import Ja from '../ui/Ja.astro';
+import { mechanism } from '../../data/mechanism';
+
+// viewBox 400x400 の円周上に、上・右・下・左の順でノードを置く
+const nodePos = [
+  { x: 200, y: 50 },
+  { x: 350, y: 200 },
+  { x: 200, y: 350 },
+  { x: 50, y: 200 },
+];
+const loopPath = 'M200,50 A150,150 0 1,1 200,350 A150,150 0 1,1 200,50';
+---
+
+<section id="mechanism" class="mech" aria-labelledby="mech-title" data-mech style={`--steps:${mechanism.length}`}>
+  <div class="mech__track" data-mech-track>
+    <div class="mech__stage">
+      <div class="container mech__layout">
+        <header class="mech__head">
+          <Eyebrow index="02">HOW IT WORKS</Eyebrow>
+          <h2 id="mech-title" class="mech__title"><Ja text="人が決めて、AIが回し続ける。" /></h2>
+          <p class="mech__lead">
+            <Ja text="開発のループを、AIエージェントが24時間回し続けます。人は「決める」と「判断する」に集中できます。" />
+          </p>
+        </header>
+
+        <div class="mech__diagram" aria-hidden="true">
+          <svg viewBox="0 0 400 400" class="mech__svg">
+            <defs>
+              <radialGradient id="mech-glow">
+                <stop offset="0" stop-color="#d6f5aa" stop-opacity="0.95"></stop>
+                <stop offset="0.35" stop-color="#84ba3f" stop-opacity="0.55"></stop>
+                <stop offset="1" stop-color="#84ba3f" stop-opacity="0"></stop>
+              </radialGradient>
+            </defs>
+            <circle cx="200" cy="200" r="182" class="mech__halo"></circle>
+            <path d={loopPath} class="mech__base" data-loop-path></path>
+            <path d={loopPath} class="mech__progress" data-loop-progress></path>
+            {
+              nodePos.map((n, i) => (
+                <circle cx={n.x} cy={n.y} r="11" class:list={['mech__node', { 'is-ai': mechanism[i]!.actor === 'AI' }]} data-loop-node />
+              ))
+            }
+            <g data-loop-dot class="mech__dot" transform="translate(200 50)">
+              <circle r="22" fill="url(#mech-glow)"></circle>
+              <circle r="5" fill="#ecf3ea"></circle>
+            </g>
+          </svg>
+          {
+            mechanism.map((m, i) => (
+              <span class={`mech__label mech__label--${i}`} data-loop-label>
+                <b>{m.no}</b> {m.actor}
+              </span>
+            ))
+          }
+          <div class="mech__center">
+            <span class="mech__center-big">24/7</span>
+            <span class="mech__center-small">DEV LOOP</span>
+          </div>
+        </div>
+
+        <div class="mech__steps-wrap">
+          <span class="mech__rail" aria-hidden="true"><span data-mech-rail></span></span>
+          <ol class="mech__steps" role="list" data-steps>
+            {
+              mechanism.map((m, i) => (
+                <li class:list={['mech__step', { 'is-active': i === 0 }]} data-step>
+                  <p class="mech__step-meta">
+                    <span class="mech__step-no">{m.no}</span>
+                    <span class:list={['mech__actor', { 'is-ai': m.actor === 'AI' }]}>{m.actor}</span>
+                  </p>
+                  <h3 class="mech__step-title">{m.title}</h3>
+                  <p class="mech__step-text">
+                    <Ja text={m.text} />
+                  </p>
+                </li>
+              ))
+            }
+          </ol>
+          <ol class="mech__progressbar" role="list" aria-hidden="true">
+            {mechanism.map(() => <li></li>)}
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  @layer components {
+    .mech {
+      position: relative;
+      background: var(--c-bg-raise);
+      border-block: 1px solid var(--c-line);
+    }
+    .mech__stage {
+      padding-block: var(--section-y);
+    }
+    .mech__layout {
+      display: grid;
+      gap: var(--sp-7);
+      grid-template-areas: 'head' 'diagram' 'steps';
+    }
+    .mech__head {
+      grid-area: head;
+      display: grid;
+      gap: var(--sp-4);
+    }
+    .mech__title {
+      font-size: var(--fs-2xl);
+    }
+    .mech__lead {
+      color: var(--c-text-muted);
+      font-size: var(--fs-md);
+      word-break: keep-all;
+      overflow-wrap: anywhere;
+    }
+
+    /* ループ図 */
+    .mech__diagram {
+      grid-area: diagram;
+      position: relative;
+      inline-size: min(100%, 26rem);
+      aspect-ratio: 1;
+      justify-self: center;
+      font-family: var(--font-mono);
+      font-size: var(--fs-xs);
+    }
+    .mech__svg {
+      inline-size: 100%;
+      block-size: 100%;
+      overflow: visible;
+    }
+    .mech__halo {
+      fill: none;
+      stroke: var(--c-line);
+      stroke-width: 1;
+      stroke-dasharray: 2 6;
+    }
+    .mech__base {
+      fill: none;
+      stroke: var(--c-line-strong);
+      stroke-width: 2;
+    }
+    .mech__progress {
+      fill: none;
+      stroke: var(--c-brand);
+      stroke-width: 3;
+      stroke-linecap: round;
+      filter: drop-shadow(0 0 6px rgb(132 186 63 / 0.6));
+    }
+    .mech__node {
+      fill: var(--c-brand);
+      stroke: var(--c-brand);
+      stroke-width: 2;
+      transition: fill var(--dur-2);
+    }
+    .mech__node.is-ai {
+      stroke: var(--c-brand-light);
+    }
+    [data-motion='on'] .mech__node {
+      fill: var(--c-bg);
+    }
+    [data-motion='on'] .mech__node.is-lit {
+      fill: var(--c-brand);
+    }
+    .mech__label {
+      position: absolute;
+      translate: -50% -50%;
+      white-space: nowrap;
+      padding: 0.1em 0.6em;
+      border-radius: var(--r-pill);
+      background: var(--c-bg-raise);
+      border: 1px solid var(--c-line-strong);
+      color: var(--c-text-muted);
+      line-height: 1.6;
+      transition: color var(--dur-2), border-color var(--dur-2);
+    }
+    .mech__label b {
+      color: var(--c-brand);
+      font-weight: 600;
+    }
+    .mech__label.is-lit {
+      color: var(--c-text);
+      border-color: var(--c-brand);
+    }
+    /* 左右のラベルはノードの上、上下のラベルは円の内側に置く */
+    .mech__label--0 {
+      inset: 23% auto auto 50%;
+    }
+    .mech__label--1 {
+      inset: 40% 0 auto auto;
+      translate: 0 -50%;
+    }
+    .mech__label--2 {
+      inset: 77% auto auto 50%;
+    }
+    .mech__label--3 {
+      inset: 40% auto auto 0;
+      translate: 0 -50%;
+    }
+    .mech__center {
+      position: absolute;
+      inset: 50% auto auto 50%;
+      translate: -50% -50%;
+      display: grid;
+      justify-items: center;
+      gap: 0.2em;
+      pointer-events: none;
+    }
+    .mech__center-big {
+      font-family: var(--font-sans);
+      font-weight: 800;
+      font-size: clamp(1.75rem, 1rem + 2.5vw, 3rem);
+      line-height: 1;
+      background: linear-gradient(180deg, var(--c-text), var(--c-brand-light));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .mech__center-small {
+      color: var(--c-text-subtle);
+      letter-spacing: 0.16em;
+    }
+
+    /* ステップ */
+    .mech__steps-wrap {
+      grid-area: steps;
+      position: relative;
+      padding-inline-start: var(--sp-6);
+    }
+    .mech__rail {
+      position: absolute;
+      inset-block: 0.5rem;
+      inset-inline-start: 0.4rem;
+      inline-size: 2px;
+      background: var(--c-line-strong);
+      border-radius: 2px;
+      overflow: clip;
+    }
+    .mech__rail span {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, var(--c-brand-hi), var(--c-brand));
+      transform-origin: top;
+    }
+    .mech__steps {
+      display: grid;
+      gap: var(--sp-7);
+    }
+    .mech__step {
+      display: grid;
+      gap: var(--sp-2);
+    }
+    .mech__step-meta {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-3);
+      font-family: var(--font-mono);
+      font-size: var(--fs-xs);
+      letter-spacing: 0.12em;
+    }
+    .mech__step-no {
+      color: var(--c-brand);
+    }
+    .mech__actor {
+      padding: 0 0.6em;
+      border-radius: var(--r-pill);
+      border: 1px solid var(--c-line-strong);
+      color: var(--c-text-muted);
+    }
+    .mech__actor.is-ai {
+      border-color: rgb(132 186 63 / 0.45);
+      color: var(--c-brand-hi);
+      background: rgb(132 186 63 / 0.08);
+    }
+    .mech__step-title {
+      font-size: var(--fs-xl);
+    }
+    .mech__step-text {
+      color: var(--c-text-muted);
+      word-break: keep-all;
+      overflow-wrap: anywhere;
+    }
+    .mech__progressbar {
+      display: none;
+    }
+
+    @media (min-width: 48em) {
+      .mech__layout {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        grid-template-areas: 'head head' 'diagram steps';
+        align-items: center;
+        column-gap: var(--sp-8);
+      }
+      .mech__diagram {
+        inline-size: min(100%, 30rem);
+      }
+    }
+
+    /* PC で動きを許可しているときは、sticky のステージで1ステップずつ見せる */
+    @media (prefers-reduced-motion: no-preference) and (min-width: 48em) and (min-height: 35em) {
+      :global(.js) .mech__track {
+        block-size: calc(100svh + var(--steps) * 70svh);
+      }
+      :global(.js) .mech__stage {
+        position: sticky;
+        inset-block-start: 0;
+        block-size: 100svh;
+        display: grid;
+        align-content: center;
+        padding-block: calc(var(--header-h) + var(--sp-5)) var(--sp-6);
+      }
+      :global(.js) .mech__layout {
+        row-gap: clamp(var(--sp-5), 4svh, var(--sp-8));
+      }
+      :global(.js) .mech__diagram {
+        inline-size: min(100%, 30rem, 54svh);
+      }
+      :global(.js) .mech__rail {
+        display: none;
+      }
+      :global(.js) .mech__steps-wrap {
+        padding-inline-start: 0;
+        display: grid;
+        gap: var(--sp-6);
+      }
+      :global(.js) .mech__steps {
+        display: grid;
+      }
+      :global(.js) .mech__step {
+        grid-area: 1 / 1;
+        opacity: 0;
+        translate: 0 1rem;
+        transition:
+          opacity var(--dur-3) var(--ease-out),
+          translate var(--dur-3) var(--ease-out);
+      }
+      :global(.js) .mech__step.is-active {
+        opacity: 1;
+        translate: 0 0;
+      }
+      :global(.js) .mech__step-title {
+        font-size: var(--fs-2xl);
+      }
+      :global(.js) .mech__step-text {
+        font-size: var(--fs-md);
+      }
+      :global(.js) .mech__progressbar {
+        display: flex;
+        gap: var(--sp-2);
+        list-style: none;
+        padding: 0;
+      }
+      :global(.js) .mech__progressbar li {
+        flex: 1;
+        block-size: 3px;
+        border-radius: 3px;
+        background: var(--c-line-strong);
+      }
+      :global(.js) .mech__steps-wrap:has(.mech__step:nth-child(1).is-active) .mech__progressbar li:nth-child(-n + 1),
+      :global(.js) .mech__steps-wrap:has(.mech__step:nth-child(2).is-active) .mech__progressbar li:nth-child(-n + 2),
+      :global(.js) .mech__steps-wrap:has(.mech__step:nth-child(3).is-active) .mech__progressbar li:nth-child(-n + 3),
+      :global(.js) .mech__steps-wrap:has(.mech__step:nth-child(4).is-active) .mech__progressbar li:nth-child(-n + 4) {
+        background: var(--c-brand);
+      }
+    }
+  }
+</style>
+
+<script>
+  import { whenNear } from '../../scripts/env';
+
+  const root = document.querySelector<HTMLElement>('[data-mech]');
+  if (root) whenNear(root, () => import('../../scripts/motion/mechanism').then((m) => m.init(root)));
+</script>

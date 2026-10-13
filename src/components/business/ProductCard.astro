@@ -1,0 +1,106 @@
+---
+import { Image } from 'astro:assets';
+import StoreBadge from '../ui/StoreBadge.astro';
+import Icon from '../ui/Icon.astro';
+import Ja from '../ui/Ja.astro';
+import type { Product } from '../../data/products';
+
+interface Props {
+  product: Product;
+}
+const { product: p } = Astro.props;
+---
+
+<article id={`product-${p.id}`} class="product">
+  <div class="product__icon">
+    <Image src={p.icon} alt={`${p.name}のアイコン`} width={80} height={80} densities={[1, 2]} />
+  </div>
+  <div class="product__info">
+    <p class="product__platforms">{p.platforms}</p>
+    <h3 class="product__name">{p.name}</h3>
+    <p class="product__tagline"><Ja text={p.tagline} /></p>
+  </div>
+  <div class="product__links">
+    {
+      p.site && (
+        <a class="product__site" href={p.site} target="_blank" rel="noopener">
+          <Icon name="globe" /> 公式サイト
+          <span class="sr-only">（新しいタブで開きます）</span>
+        </a>
+      )
+    }
+    {p.stores.map((s) => <StoreBadge store={s.id} url={s.url} product={p.name} />)}
+  </div>
+</article>
+
+<style>
+  @layer components {
+    .product {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      grid-template-areas: 'icon info' 'links links';
+      gap: var(--sp-5);
+      align-items: center;
+      padding: var(--sp-5);
+      border-radius: var(--r-lg);
+      border: 1px solid var(--c-line);
+      background: var(--c-surface);
+      scroll-margin-block-start: 4.5rem;
+    }
+    .product__icon {
+      grid-area: icon;
+      inline-size: 5rem;
+      border-radius: 22%;
+      overflow: clip;
+      background: var(--c-bg);
+    }
+    .product__icon :global(img) {
+      inline-size: 100%;
+      block-size: auto;
+    }
+    .product__info {
+      grid-area: info;
+      display: grid;
+      gap: 0.15em;
+    }
+    .product__platforms {
+      font-family: var(--font-mono);
+      font-size: var(--fs-xs);
+      color: var(--c-brand);
+      letter-spacing: 0.08em;
+    }
+    .product__name {
+      font-size: var(--fs-xl);
+    }
+    .product__tagline {
+      word-break: keep-all;
+      overflow-wrap: anywhere;
+      color: var(--c-text-muted);
+      font-size: var(--fs-sm);
+    }
+    .product__links {
+      grid-area: links;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--sp-3);
+    }
+    .product__site {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45em;
+      min-block-size: 2.75rem;
+      padding-inline: 1.1em;
+      border-radius: var(--r-sm);
+      border: 1px solid var(--c-line-strong);
+      color: var(--c-text);
+      font-size: var(--fs-sm);
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .product__site:hover {
+      border-color: var(--c-brand);
+      color: var(--c-brand-hi);
+    }
+  }
+</style>

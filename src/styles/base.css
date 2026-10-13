@@ -1,0 +1,52 @@
+html {
+  /* 1280px までは 16px、1920px で 18px、2560px で 20px、3840px で 24px。ページ全体が比率を保って拡大する */
+  font-size: clamp(100%, 0.75rem + 0.3125vw, 150%);
+  background: var(--c-bg);
+  scroll-behavior: smooth;
+  scroll-padding-block-start: var(--scroll-offset);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+body {
+  background: var(--c-bg);
+  color: var(--c-text);
+  font-family: var(--font-sans);
+  font-size: var(--fs-base);
+  line-height: var(--lh-body);
+  letter-spacing: 0.03em;
+  line-break: strict;
+  text-wrap: pretty;
+  font-kerning: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-wrap: anywhere;
+}
+
+h1, h2, h3, h4 {
+  line-height: var(--lh-heading);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  font-feature-settings: 'palt';
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+
+p { max-inline-size: var(--w-measure); }
+
+a { text-underline-offset: 0.25em; text-decoration-thickness: 1px; }
+
+:focus-visible {
+  outline: 3px solid var(--c-brand-hi);
+  outline-offset: 3px;
+  border-radius: var(--r-xs);
+}
+
+::selection { background: var(--c-brand); color: var(--c-on-brand); }
+
+strong { color: var(--c-text); font-weight: 700; }
+
+.ja-wrap { word-break: keep-all; overflow-wrap: anywhere; }

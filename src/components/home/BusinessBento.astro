@@ -1,0 +1,497 @@
+---
+import { Image } from 'astro:assets';
+import Eyebrow from '../ui/Eyebrow.astro';
+import Icon from '../ui/Icon.astro';
+import Ja from '../ui/Ja.astro';
+import { services } from '../../data/services';
+import mahjongIcon from '../../assets/apps/mahjong-monsters.png';
+---
+
+<section class="section bento-section" aria-labelledby="business-title">
+  <div class="container">
+    <header class="section-head">
+      <Eyebrow index="03">BUSINESS</Eyebrow>
+      <h2 id="business-title" class="section-head__title"><Ja text="同じ仕組みで、4つの事業を。" /></h2>
+      <p class="section-head__lead">
+        <Ja text="ゲーム制作とAI動作確認支援を強化しながら、仕組みそのものの提供と、エンジニアの参画も続けています。" />
+      </p>
+    </header>
+
+    <div class="bento-wrap">
+    <ul class="bento" role="list">
+      {
+        services.map((s, i) => (
+          <li class={`bento__cell bento__cell--${s.id}`} data-reveal style={`--i:${i}`}>
+            <a class="card" href={`/business.html#${s.id}`}>
+              <div class="card__top">
+                <span class="card__code">{s.code}</span>
+                <span class:list={['card__status', { 'is-hot': s.status === '強化中' }]}>{s.status}</span>
+              </div>
+
+              {s.id === 'game' && (
+                <div class="viz viz--game" aria-hidden="true">
+                  <div class="viz-game__icon">
+                    <Image src={mahjongIcon} alt="" width={120} height={120} densities={[1, 2]} />
+                  </div>
+                  <div class="viz-game__meta">
+                    <span class="viz-game__name">麻雀モンスターズ</span>
+                    <span class="viz-game__sub">iOS / Android</span>
+                  </div>
+                  <div class="viz-game__bars">
+                    {['PLAN', 'IMPL', 'TEST', 'LIVE'].map((b, k) => (
+                      <span style={`--k:${k}`}>
+                        <i />
+                        {b}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {s.id === 'ai-testing' && (
+                <div class="viz viz--phone" aria-hidden="true">
+                  <div class="phone">
+                    <div class="phone__notch" />
+                    <div class="phone__row" />
+                    <div class="phone__row phone__row--short" />
+                    <div class="phone__card" />
+                    <div class="phone__btn" />
+                    <span class="phone__tap" />
+                  </div>
+                  <ul class="phone-log" role="list">
+                    <li>
+                      <Icon name="check" /> ログイン
+                    </li>
+                    <li>
+                      <Icon name="check" /> 一覧の表示
+                    </li>
+                    <li>
+                      <Icon name="check" /> 購入フロー
+                    </li>
+                    <li class="is-run">
+                      <span class="phone-log__spin" /> 設定の保存
+                    </li>
+                  </ul>
+                </div>
+              )}
+
+              {s.id === 'ai-dev' && (
+                <div class="viz viz--pipe" aria-hidden="true">
+                  {['診断', '設計', '構築', '内製化'].map((p, k) => (
+                    <span class="pipe__node" style={`--k:${k}`}>
+                      {p}
+                    </span>
+                  ))}
+                  <span class="pipe__flow" />
+                </div>
+              )}
+
+              {s.id === 'ses' && (
+                <div class="viz viz--roles" aria-hidden="true">
+                  {['TECH LEAD', 'PM', 'ENGINEER'].map((r) => (
+                    <span>{r}</span>
+                  ))}
+                </div>
+              )}
+
+              <div class="card__body">
+                <h3 class="card__title"><Ja text={s.title} /></h3>
+                <p class="card__text">
+                  <Ja text={s.summary} />
+                </p>
+              </div>
+              <span class="card__more">
+                詳しく見る <Icon name="arrow" />
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  @layer components {
+    .bento-wrap {
+      container-type: inline-size;
+    }
+    .bento {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--sp-4);
+    }
+    @container (min-width: 40rem) {
+      .bento {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    @supports not (container-type: inline-size) {
+      .bento {
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+      }
+    }
+    .bento__cell {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .card {
+      position: relative;
+      isolation: isolate;
+      display: grid;
+      grid-template-rows: auto 1fr auto auto;
+      gap: var(--sp-5);
+      padding: clamp(var(--sp-5), 1rem + 1.5vw, var(--sp-7));
+      border: 1px solid var(--c-line);
+      border-radius: var(--r-lg);
+      background: linear-gradient(180deg, var(--c-surface), var(--c-bg-raise));
+      box-shadow: var(--edge);
+      text-decoration: none;
+      overflow: clip;
+      transition:
+        border-color var(--dur-2) var(--ease-out),
+        translate var(--dur-2) var(--ease-out),
+        box-shadow var(--dur-2) var(--ease-out);
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: radial-gradient(ellipse 60% 50% at 80% 0%, rgb(132 186 63 / 0.14), transparent 70%);
+      opacity: 0;
+      transition: opacity var(--dur-3) var(--ease-out);
+    }
+    .card:hover {
+      border-color: rgb(132 186 63 / 0.5);
+      box-shadow: var(--edge), var(--glow-sm);
+    }
+    .card:hover::before {
+      opacity: 1;
+    }
+    .card__top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--sp-3);
+      font-family: var(--font-mono);
+      font-size: var(--fs-xs);
+      letter-spacing: 0.12em;
+    }
+    .card__code {
+      color: var(--c-brand);
+    }
+    .card__status {
+      padding: 0 0.7em;
+      border-radius: var(--r-pill);
+      border: 1px solid var(--c-line-strong);
+      color: var(--c-text-muted);
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+    .card__status.is-hot {
+      border-color: rgb(132 186 63 / 0.5);
+      color: var(--c-brand-hi);
+      background: rgb(132 186 63 / 0.08);
+    }
+    .card__body {
+      display: grid;
+      gap: var(--sp-2);
+    }
+    .card__title {
+      font-size: var(--fs-xl);
+    }
+    .card__text {
+      color: var(--c-text-muted);
+      word-break: keep-all;
+      overflow-wrap: anywhere;
+    }
+    .card__more {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4em;
+      color: var(--c-brand-hi);
+      font-size: var(--fs-sm);
+      font-weight: 700;
+    }
+    .card:hover .card__more :global(.icon) {
+      translate: 0.2em 0;
+    }
+    .card__more :global(.icon) {
+      transition: translate var(--dur-2) var(--ease-out);
+    }
+
+    /* ビジュアル共通 */
+    .viz {
+      position: relative;
+      min-block-size: 9rem;
+      border-radius: var(--r-md);
+      border: 1px solid var(--c-line);
+      background:
+        linear-gradient(to right, rgb(132 186 63 / 0.06) 1px, transparent 1px) 0 0 / 1.5rem 1.5rem,
+        linear-gradient(to bottom, rgb(132 186 63 / 0.06) 1px, transparent 1px) 0 0 / 1.5rem 1.5rem,
+        var(--c-bg);
+      overflow: clip;
+      font-family: var(--font-mono);
+      font-size: var(--fs-xs);
+    }
+
+    /* ゲーム */
+    .viz--game {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      grid-template-areas: 'icon meta' 'bars bars';
+      align-items: center;
+      gap: var(--sp-4);
+      padding: var(--sp-5);
+    }
+    .viz-game__icon {
+      grid-area: icon;
+      inline-size: 4.5rem;
+      border-radius: 22%;
+      overflow: clip;
+      box-shadow: 0 0 2rem rgb(255 120 60 / 0.25);
+    }
+    .viz-game__icon :global(img) {
+      inline-size: 100%;
+      block-size: auto;
+    }
+    .viz-game__meta {
+      grid-area: meta;
+      display: grid;
+      gap: 0.2em;
+    }
+    .viz-game__name {
+      font-family: var(--font-sans);
+      font-weight: 700;
+      font-size: var(--fs-md);
+      color: var(--c-text);
+    }
+    .viz-game__sub {
+      color: var(--c-text-subtle);
+    }
+    .viz-game__bars {
+      grid-area: bars;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: var(--sp-2);
+      color: var(--c-text-muted);
+    }
+    .viz-game__bars span {
+      display: grid;
+      gap: 0.4em;
+    }
+    .viz-game__bars i {
+      display: block;
+      block-size: 0.35rem;
+      border-radius: 1rem;
+      background: linear-gradient(90deg, var(--c-brand), var(--c-brand-light));
+      transform-origin: left;
+    }
+
+    /* AI動作確認 */
+    .viz--phone {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: var(--sp-5);
+      padding: var(--sp-5);
+      min-block-size: 15rem;
+    }
+    .phone {
+      position: relative;
+      flex: none;
+      inline-size: 7.5rem;
+      aspect-ratio: 9 / 18;
+      border-radius: 1.2rem;
+      border: 2px solid var(--c-line-strong);
+      background: var(--c-surface);
+      padding: 1.4rem 0.6rem 0.6rem;
+      display: grid;
+      align-content: start;
+      gap: 0.45rem;
+    }
+    .phone__notch {
+      position: absolute;
+      inset: 0.4rem auto auto 50%;
+      translate: -50% 0;
+      inline-size: 2rem;
+      block-size: 0.35rem;
+      border-radius: 1rem;
+      background: var(--c-line-strong);
+    }
+    .phone__row {
+      block-size: 0.5rem;
+      border-radius: 0.3rem;
+      background: var(--c-line-strong);
+    }
+    .phone__row--short {
+      inline-size: 60%;
+    }
+    .phone__card {
+      block-size: 3rem;
+      border-radius: 0.5rem;
+      background: linear-gradient(135deg, rgb(132 186 63 / 0.35), rgb(1 100 53 / 0.35));
+    }
+    .phone__btn {
+      block-size: 1.1rem;
+      border-radius: 1rem;
+      background: var(--c-brand);
+      margin-block-start: auto;
+    }
+    .phone__tap {
+      position: absolute;
+      inline-size: 1.6rem;
+      block-size: 1.6rem;
+      inset: 72% auto auto 46%;
+      border-radius: 50%;
+      border: 2px solid var(--c-brand-hi);
+      opacity: 0;
+    }
+    .phone-log {
+      display: grid;
+      gap: 0.5rem;
+      color: var(--c-text-muted);
+      white-space: nowrap;
+    }
+    .phone-log li {
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+    }
+    .phone-log :global(.icon) {
+      color: var(--c-brand);
+    }
+    .phone-log .is-run {
+      color: var(--c-text);
+    }
+    .phone-log__spin {
+      inline-size: 0.85em;
+      block-size: 0.85em;
+      border-radius: 50%;
+      border: 2px solid var(--c-line-strong);
+      border-block-start-color: var(--c-brand);
+    }
+
+    /* 仕組みづくり */
+    .viz--pipe {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      align-items: center;
+      gap: var(--sp-2);
+      padding: var(--sp-5);
+    }
+    .pipe__node {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      min-block-size: 2.75rem;
+      border-radius: var(--r-sm);
+      border: 1px solid var(--c-line-strong);
+      background: var(--c-surface);
+      color: var(--c-text);
+      font-family: var(--font-sans);
+      font-size: var(--fs-xs);
+      white-space: nowrap;
+    }
+    .pipe__flow {
+      position: absolute;
+      inset: 50% var(--sp-5) auto;
+      block-size: 2px;
+      background: linear-gradient(90deg, transparent, var(--c-brand), transparent) 0 0 / 30% 100% no-repeat, var(--c-line-strong);
+    }
+
+    /* SES */
+    .viz--roles {
+      display: flex;
+      flex-wrap: wrap;
+      align-content: center;
+      justify-content: center;
+      gap: var(--sp-2);
+      padding: var(--sp-5);
+    }
+    .viz--roles span {
+      padding: 0.3em 0.9em;
+      border-radius: var(--r-pill);
+      border: 1px solid var(--c-line-strong);
+      color: var(--c-text-muted);
+      letter-spacing: 0.1em;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .viz-game__bars i {
+        animation: bar-fill 3.2s var(--ease-io) infinite;
+        animation-delay: calc(var(--k) * 0.45s);
+      }
+      .phone__tap {
+        animation: tap 2.6s var(--ease-out) infinite;
+      }
+      .phone-log__spin {
+        animation: spin 0.9s linear infinite;
+      }
+      .pipe__flow {
+        animation: flow 2.4s linear infinite;
+      }
+      :global(.js) .bento__cell:not(:global(.is-in)) * {
+        animation-play-state: paused;
+      }
+    }
+    @keyframes bar-fill {
+      0% {
+        scale: 0 1;
+      }
+      45%,
+      100% {
+        scale: 1 1;
+      }
+    }
+    @keyframes tap {
+      0% {
+        opacity: 0.9;
+        scale: 0.4;
+      }
+      60%,
+      100% {
+        opacity: 0;
+        scale: 1.6;
+      }
+    }
+    @keyframes spin {
+      to {
+        rotate: 1turn;
+      }
+    }
+    @keyframes flow {
+      from {
+        background-position: -30% 0, 0 0;
+      }
+      to {
+        background-position: 130% 0, 0 0;
+      }
+    }
+
+    @container (min-width: 64rem) {
+      .bento {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+      }
+      .bento__cell--game {
+        grid-column: span 4;
+      }
+      .bento__cell--ai-testing {
+        grid-column: span 2;
+        grid-row: span 2;
+      }
+      .bento__cell--ai-dev,
+      .bento__cell--ses {
+        grid-column: span 2;
+      }
+      .bento__cell--ai-testing .viz--phone {
+        flex-direction: column;
+        min-block-size: 22rem;
+      }
+    }
+  }
+</style>

@@ -1,0 +1,61 @@
+---
+import { profile, purposes } from '../../data/company';
+---
+
+<dl class="profile">
+  {
+    profile.map((row) => (
+      <div class="profile__row" data-reveal>
+        <dt>{row.term}</dt>
+        <dd>{row.desc}</dd>
+      </div>
+    ))
+  }
+  <div class="profile__row" data-reveal>
+    <dt>事業内容</dt>
+    <dd>
+      <ol class="profile__purposes">
+        {purposes.map((p) => <li>{p}</li>)}
+      </ol>
+    </dd>
+  </div>
+</dl>
+
+<style>
+  @layer components {
+    .profile {
+      border-block-start: 1px solid var(--c-line);
+    }
+    .profile__row {
+      display: grid;
+      gap: var(--sp-1) var(--sp-6);
+      padding-block: var(--sp-5);
+      border-block-end: 1px solid var(--c-line);
+    }
+    @media (min-width: 40em) {
+      .profile__row {
+        grid-template-columns: 9em minmax(0, 1fr);
+      }
+    }
+    .profile dt {
+      font-family: var(--font-mono);
+      font-size: var(--fs-sm);
+      color: var(--c-brand);
+      letter-spacing: 0.08em;
+    }
+    .profile dd {
+      font-size: var(--fs-md);
+    }
+    .profile__purposes {
+      display: grid;
+      gap: var(--sp-2);
+      padding-inline-start: 1.6em;
+      font-size: var(--fs-base);
+      color: var(--c-text-muted);
+    }
+    .profile__purposes li::marker {
+      color: var(--c-brand);
+      font-family: var(--font-mono);
+    }
+  }
+</style>

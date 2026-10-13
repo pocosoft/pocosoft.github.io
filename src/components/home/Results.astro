@@ -1,0 +1,77 @@
+---
+import Eyebrow from '../ui/Eyebrow.astro';
+import Ja from '../ui/Ja.astro';
+import CaseStudy from '../business/CaseStudy.astro';
+
+const pillars = [
+  { code: 'SPEED', title: '速さ', text: '少人数のチームでも、AIが並行して実装を進めるので、企画からリリースまでが短くなります。' },
+  { code: 'QUALITY', title: '品質', text: 'AIが毎回すべての動作確認と回帰テストを回すので、変更のたびの見落としが減ります。' },
+  { code: 'COST', title: 'コスト', text: '人は決めることと判断することに集中し、手を動かす作業はAIが引き受けます。' },
+];
+---
+
+<section id="results" class="section" aria-labelledby="results-title">
+  <div class="container">
+    <header class="section-head">
+      <Eyebrow index="04">RESULTS</Eyebrow>
+      <h2 id="results-title" class="section-head__title"><Ja text="速さ・品質・コストを、実績で。" /></h2>
+      <p class="section-head__lead">
+        <Ja text="言語やスキルの一覧ではなく、どれだけ速く、確かに、少ないコストでつくれたか。自社タイトルの開発実績でお見せします。" />
+      </p>
+    </header>
+    <ul class="pillars" role="list">
+      {
+        pillars.map((p, i) => (
+          <li class="pillar" data-reveal style={`--i:${i}`}>
+            <p class="pillar__code">{p.code}</p>
+            <h3 class="pillar__title">{p.title}</h3>
+            <p class="pillar__text">
+              <Ja text={p.text} />
+            </p>
+          </li>
+        ))
+      }
+    </ul>
+    <div data-reveal>
+      <CaseStudy />
+    </div>
+  </div>
+</section>
+
+<style>
+  @layer components {
+    .pillars {
+      display: grid;
+      gap: var(--sp-4);
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+      margin-block-end: var(--sp-7);
+    }
+    .pillar {
+      display: grid;
+      gap: var(--sp-2);
+      align-content: start;
+      padding: var(--sp-5);
+      border-radius: var(--r-lg);
+      border: 1px solid var(--c-line);
+      background: var(--c-bg-raise);
+    }
+    .pillar__code {
+      font-family: var(--font-mono);
+      font-size: var(--fs-xs);
+      letter-spacing: 0.14em;
+      color: var(--c-brand);
+    }
+    .pillar__title {
+      font-size: var(--fs-xl);
+    }
+    .pillar__text {
+      color: var(--c-text-muted);
+      word-break: keep-all;
+      overflow-wrap: anywhere;
+    }
+  }
+</style>
+
+<script>
+  import '../../scripts/counters';
+</script>

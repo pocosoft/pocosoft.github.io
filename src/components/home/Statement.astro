@@ -1,0 +1,56 @@
+---
+import Eyebrow from '../ui/Eyebrow.astro';
+import { jaPhrases } from '../../lib/ja';
+
+// em: true の部分はブランド色で強調する
+const segments: { text: string; em?: boolean }[] = [
+  { text: '言語やスキルの一覧は、もう差別化になりません。' },
+  { text: '問われているのは、どれだけ速く、確かに、少ないコストでつくり続けられるか。' },
+  { text: '私たちはその答えを、人の頑張りではなく、' },
+  { text: '止まらない仕組み', em: true },
+  { text: 'で出します。' },
+];
+const phrases = segments.flatMap((s) => jaPhrases(s.text).map((p) => ({ text: p, em: !!s.em })));
+---
+
+<section class="section statement" aria-labelledby="statement-title" data-statement>
+  <div class="container">
+    <Eyebrow index="01">WHY NOW</Eyebrow>
+    <h2 id="statement-title" class="sr-only">いま、開発に問われていること</h2>
+    <p class="statement__text">
+      {phrases.map((p, i) => <>{i > 0 && <wbr />}<span class:list={['statement__phrase', { 'is-em': p.em }]} data-phrase>{p.text}</span></>)}
+    </p>
+  </div>
+</section>
+
+<style>
+  @layer components {
+    .statement .container {
+      display: grid;
+      gap: var(--sp-6);
+    }
+    .statement__text {
+      font-size: clamp(1.625rem, 1rem + 4vw, 4.25rem);
+      line-height: 1.45;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      max-inline-size: 20em;
+      word-break: keep-all;
+      overflow-wrap: anywhere;
+      text-wrap: pretty;
+    }
+    .statement__phrase {
+      transition: color var(--dur-2);
+    }
+    .statement__phrase.is-em {
+      color: var(--c-brand);
+    }
+  }
+</style>
+
+<script>
+  import { whenNear } from '../../scripts/env';
+
+  const root = document.querySelector<HTMLElement>('[data-statement]');
+  if (root) whenNear(root, () => import('../../scripts/motion/statement').then((m) => m.init(root)));
+</script>

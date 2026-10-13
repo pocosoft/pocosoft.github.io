@@ -1,0 +1,243 @@
+---
+import Backdrop from '../ui/Backdrop.astro';
+import Button from '../ui/Button.astro';
+import StatusChip from '../ui/StatusChip.astro';
+import Ja from '../ui/Ja.astro';
+import AgentConsole from './AgentConsole.astro';
+import { site } from '../../data/site';
+
+const keywords = ['AUTONOMOUS DEVELOPMENT', '24/7 REGRESSION TESTING', 'GAME STUDIO', 'AI QUALITY ASSURANCE', 'HUMAN IN THE LOOP', 'CONTINUOUS DELIVERY'];
+---
+
+<section class="hero" aria-labelledby="hero-title" data-hero>
+  <Backdrop variant="hero" />
+  <canvas class="hero__canvas" data-hero-canvas data-running="false" aria-hidden="true"></canvas>
+  <div class="hero__inner container">
+    <div class="hero__head">
+      <StatusChip />
+      <h1 id="hero-title" class="hero__title">
+        <span class="hero__line"><Ja text="止まらないAI開発を、" /></span>
+        <span class="hero__line hero__line--accent"><Ja text="仕組みにする。" /></span>
+      </h1>
+    </div>
+    <div class="hero__body">
+      <p class="hero__lead">
+        <Ja text="ポコソフトは、AIエージェントが昼も夜も実装とテストを回し続ける開発体制で、ゲームとシステムをつくっています。その仕組みを、あなたのチームにも。" />
+      </p>
+      <div class="hero__actions">
+        <Button href={site.contactUrl} size="lg" external>お問い合わせ</Button>
+        <Button href="#mechanism" variant="ghost" size="lg">仕組みを見る</Button>
+      </div>
+    </div>
+    <div class="hero__console">
+      <AgentConsole />
+    </div>
+  </div>
+  <div class="hero__marquee" aria-hidden="true" data-overflow-ok>
+    <div class="hero__track">
+      {
+        [0, 1].map(() => (
+          <span class="hero__group">
+            {keywords.map((k) => (
+              <span class="hero__kw">
+                <i>✦</i>
+                {k}
+              </span>
+            ))}
+          </span>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  @layer components {
+    .hero {
+      position: relative;
+      isolation: isolate;
+      min-block-size: 100svh;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: 1fr auto;
+      padding-block-start: calc(var(--header-h) + clamp(var(--sp-6), 1rem + 4vw, var(--sp-9)));
+      overflow-x: clip;
+    }
+    .hero__canvas {
+      position: absolute;
+      inset: 0;
+      inline-size: 100%;
+      block-size: 100%;
+      z-index: 0;
+      mask-image: radial-gradient(ellipse 85% 75% at 60% 45%, #000 35%, transparent 85%);
+      opacity: 0.9;
+    }
+    .hero__inner {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      align-content: center;
+      gap: var(--sp-6);
+      padding-block-end: var(--sp-7);
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-areas: 'head' 'body' 'console';
+    }
+    .hero__head {
+      grid-area: head;
+      display: grid;
+      justify-items: start;
+      gap: var(--sp-5);
+    }
+    .hero__title {
+      font-size: var(--fs-display);
+      line-height: var(--lh-display);
+      letter-spacing: 0;
+      font-weight: 800;
+    }
+    .hero__line {
+      display: block;
+    }
+    .hero__line--accent {
+      background: linear-gradient(100deg, var(--c-brand-hi) 0%, var(--c-brand) 45%, var(--c-brand-light) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      padding-block-end: 0.06em;
+    }
+    .hero__body {
+      grid-area: body;
+      display: grid;
+      gap: var(--sp-6);
+      align-content: start;
+    }
+    .hero__lead {
+      font-size: var(--fs-lg);
+      color: var(--c-text-muted);
+      max-inline-size: 30em;
+      word-break: keep-all;
+      overflow-wrap: anywhere;
+    }
+    .hero__actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--sp-3);
+    }
+    .hero__console {
+      grid-area: console;
+      align-self: end;
+    }
+    @media (min-width: 64em) {
+      .hero__inner {
+        grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+        grid-template-areas: 'head head' 'body console';
+        column-gap: var(--sp-8);
+        row-gap: var(--sp-7);
+      }
+    }
+
+    .hero__marquee {
+      position: relative;
+      z-index: 1;
+      border-block: 1px solid var(--c-line);
+      background: rgb(7 11 8 / 0.6);
+      overflow: clip;
+      font-family: var(--font-mono);
+      font-size: var(--fs-xs);
+      letter-spacing: 0.14em;
+      color: var(--c-text-subtle);
+      mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+    }
+    .hero__track {
+      display: flex;
+      inline-size: max-content;
+    }
+    .hero__group {
+      display: flex;
+      flex: none;
+    }
+    .hero__kw {
+      display: inline-flex;
+      align-items: center;
+      gap: 1.2em;
+      padding: var(--sp-3) 1.2em;
+      white-space: nowrap;
+    }
+    .hero__kw i {
+      font-style: normal;
+      color: var(--c-brand);
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .hero__track {
+        animation: marquee 48s linear infinite;
+      }
+      /* 見出しとリード文は LCP を遅らせないよう不透明度を変えず、位置だけ動かす */
+      .js .hero__head,
+      .js .hero__body {
+        animation: hero-rise var(--dur-4) var(--ease-out) both;
+      }
+      .js .hero__console {
+        animation: hero-in var(--dur-4) var(--ease-out) both;
+      }
+      .js .hero__console {
+        animation-delay: 300ms;
+      }
+    }
+    @keyframes marquee {
+      to {
+        translate: -50% 0;
+      }
+    }
+    @keyframes hero-rise {
+      from {
+        translate: 0 1rem;
+      }
+    }
+    @keyframes hero-in {
+      from {
+        opacity: 0;
+        translate: 0 1.25rem;
+      }
+    }
+  }
+</style>
+
+<script>
+  import { createNetwork } from '../../scripts/hero/network';
+  import { createConsole } from '../../scripts/hero/console';
+  import { consoleLines } from '../../data/console-lines';
+  import { reducedMotion, watchVisibility } from '../../scripts/env';
+
+  const hero = document.querySelector<HTMLElement>('[data-hero]');
+  const canvas = hero?.querySelector<HTMLCanvasElement>('[data-hero-canvas]');
+  const consoleEl = hero?.querySelector<HTMLElement>('[data-agent-console]');
+
+  const boot = () => {
+    if (!hero || !canvas || !consoleEl) return;
+    const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData === true;
+    const animate = !reducedMotion() && !saveData;
+    const network = createNetwork(canvas, { animate });
+    const agentConsole = createConsole(consoleEl, consoleLines);
+    if (!animate) return;
+
+    let inView = true;
+    const sync = () => {
+      if (inView && !document.hidden) {
+        network.start();
+        agentConsole.start();
+      } else {
+        network.stop();
+        agentConsole.stop();
+      }
+    };
+    watchVisibility(hero, (v) => {
+      inView = v;
+      sync();
+    });
+    document.addEventListener('visibilitychange', sync);
+    sync();
+  };
+
+  const idle = (cb: () => void) => ('requestIdleCallback' in window ? requestIdleCallback(cb, { timeout: 800 }) : setTimeout(cb, 200));
+  if (document.readyState === 'complete') idle(boot);
+  else window.addEventListener('load', () => idle(boot), { once: true });
+</script>

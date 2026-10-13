@@ -1,0 +1,42 @@
+---
+import { Image } from 'astro:assets';
+import type { StoreId } from '../../data/products';
+import appstore from '../../assets/badges/appstore.png';
+import googleplay from '../../assets/badges/googleplay.png';
+import microsoft from '../../assets/badges/microsoftstore.png';
+
+interface Props {
+  store: StoreId;
+  url: string;
+  product: string;
+}
+const { store, url, product } = Astro.props;
+const badges = {
+  appstore: { src: appstore, alt: 'App Storeからダウンロード' },
+  googleplay: { src: googleplay, alt: 'Google Playで手に入れよう' },
+  microsoft: { src: microsoft, alt: 'Microsoftから入手' },
+} as const;
+const badge = badges[store];
+---
+
+<a class="store-badge" href={url} target="_blank" rel="noopener">
+  <Image src={badge.src} alt={`${product}を${badge.alt}（新しいタブで開きます）`} height={44} densities={[1, 2, 3]} />
+</a>
+
+<style>
+  @layer components {
+    .store-badge {
+      display: inline-flex;
+      border-radius: var(--r-sm);
+      transition: translate var(--dur-2) var(--ease-out), filter var(--dur-2) var(--ease-out);
+    }
+    .store-badge :global(img) {
+      block-size: 2.75rem;
+      inline-size: auto;
+    }
+    .store-badge:hover {
+      translate: 0 -2px;
+      filter: brightness(1.15);
+    }
+  }
+</style>

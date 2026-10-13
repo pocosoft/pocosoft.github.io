@@ -1,0 +1,65 @@
+---
+import '../styles/global.css';
+import geistLatin from '@fontsource-variable/geist/files/geist-latin-wght-normal.woff2?url';
+import Seo from '../components/head/Seo.astro';
+import JsonLd from '../components/head/JsonLd.astro';
+import Analytics from '../components/head/Analytics.astro';
+import SiteHeader from '../components/chrome/SiteHeader.astro';
+import SiteFooter from '../components/chrome/SiteFooter.astro';
+import type { PageMeta } from '../lib/seo';
+
+interface Props {
+  page: PageMeta;
+  isHome?: boolean;
+}
+const { page, isHome = false } = Astro.props;
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <style is:inline>
+      @layer reset, tokens, base, layout, components, utilities;
+    </style>
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
+    <link rel="preload" href={geistLatin} as="font" type="font/woff2" crossorigin />
+    <Seo page={page} />
+    <JsonLd isHome={isHome} />
+    <Analytics />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">本文へスキップ</a>
+    <SiteHeader />
+    <main id="main">
+      <slot />
+    </main>
+    <SiteFooter />
+    <script>
+      import '../scripts/reveal';
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  @layer components {
+    .skip-link {
+      position: fixed;
+      inset-block-start: var(--sp-2);
+      inset-inline-start: var(--sp-2);
+      z-index: 100;
+      padding: var(--sp-2) var(--sp-4);
+      border-radius: var(--r-sm);
+      background: var(--c-brand);
+      color: var(--c-on-brand);
+      font-weight: 700;
+      translate: 0 -200%;
+    }
+    .skip-link:focus-visible {
+      translate: 0 0;
+    }
+  }
+</style>

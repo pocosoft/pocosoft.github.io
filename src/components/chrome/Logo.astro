@@ -1,0 +1,41 @@
+---
+import { Image } from 'astro:assets';
+import bird from '../../assets/brand/bird.png';
+
+interface Props {
+  size?: 'md' | 'lg';
+}
+const { size = 'md' } = Astro.props;
+---
+
+<span class:list={['logo', `logo--${size}`]}>
+  <span class="logo__word" aria-hidden="true">Pocosoft<span class="logo__dot">.</span></span>
+  <Image src={bird} alt="" width={40} height={40} densities={[1, 2, 3]} class="logo__bird" loading="eager" />
+</span>
+
+<style>
+  @layer components {
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3em;
+      font-family: var(--font-mono);
+      font-weight: 600;
+      font-size: 1.125rem;
+      letter-spacing: 0.02em;
+      color: var(--c-text);
+      line-height: 1;
+    }
+    .logo--lg {
+      font-size: 1.5rem;
+    }
+    .logo :global(.logo__bird) {
+      inline-size: 1.9em;
+      block-size: 1.9em;
+      margin-block: -0.4em;
+    }
+    .logo__dot {
+      color: var(--c-brand);
+    }
+  }
+</style>
