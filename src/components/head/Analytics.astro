@@ -1,20 +1,25 @@
 ---
 import { site } from '../../data/site';
 const enabled = import.meta.env.PROD;
+const host = new URL(site.url).hostname;
 ---
 
 {
   enabled && (
-    <>
-      <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${site.gaId}`} />
-      <script is:inline define:vars={{ id: site.gaId }}>
+    <script is:inline define:vars={{ id: site.gaId, host }}>
+      // 本番ドメインでだけ計測する（ローカルのプレビューやテストの閲覧を数えないため）
+      if (location.hostname === host) {
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=' + id;
+        document.head.appendChild(s);
         window.dataLayer = window.dataLayer || [];
-        function gtag() {
+        window.gtag = function () {
           dataLayer.push(arguments);
-        }
+        };
         gtag('js', new Date());
         gtag('config', id);
-      </script>
-    </>
+      }
+    </script>
   )
 }
