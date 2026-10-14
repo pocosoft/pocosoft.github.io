@@ -6,7 +6,7 @@ import { jaPhrases } from '../../lib/ja';
 const segments: { text: string; em?: boolean }[] = [
   { text: 'いま問われているのは、どれだけ速く、確かに、少ないコストでつくり続けられるか。' },
   { text: '我々はその答えを、人の頑張りではなく、' },
-  { text: '止まらない仕組み', em: true },
+  { text: 'AIをフル稼働させる環境', em: true },
   { text: 'で出します。' },
 ];
 const phrases = segments.flatMap((s) => jaPhrases(s.text).map((p) => ({ text: p, em: !!s.em })));

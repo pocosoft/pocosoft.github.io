@@ -17,7 +17,7 @@ const html = `<!doctype html><html lang="ja"><head><meta charset="utf-8"><style>
   .chip { align-self: flex-start; font: 600 22px/1 'SF Mono', Menlo, monospace; letter-spacing: .08em; color: #a3d160;
     border: 2px solid rgb(132 186 63 / .4); background: rgb(132 186 63 / .1); border-radius: 999px; padding: 12px 22px; display: flex; gap: 12px; align-items: center; }
   .chip i { width: 12px; height: 12px; border-radius: 50%; background: #84ba3f; box-shadow: 0 0 12px #84ba3f; }
-  h1 { font-size: 84px; line-height: 1.15; font-weight: 800; letter-spacing: 0; }
+  h1 { font-size: 112px; line-height: 1.15; font-weight: 800; letter-spacing: 0; }
   h1 span { display: block; background: linear-gradient(100deg, #a3d160, #84ba3f 45%, #7ec380); -webkit-background-clip: text; color: transparent; }
   .foot { display: flex; align-items: center; justify-content: space-between; }
   .logo { display: flex; align-items: center; gap: 10px; font: 600 40px/1 'SF Mono', Menlo, monospace; }
@@ -27,8 +27,8 @@ const html = `<!doctype html><html lang="ja"><head><meta charset="utf-8"><style>
 </style></head><body><div class="grid"></div><div class="glow"></div>
 <div class="inner">
   <div class="chip"><i></i>RUNNING 24/7</div>
-  <h1>止まらないAI開発を、<span>仕組みにする。</span></h1>
-  <div class="foot"><div class="logo">Pocosoft<b>.</b><img src="data:image/png;base64,${bird}" alt=""></div><div class="tag">GAME / AI TESTING / AUTONOMOUS DEV / SES</div></div>
+  <h1>AIに、<span>休みはない。</span></h1>
+  <div class="foot"><div class="logo">Pocosoft<b>.</b><img src="data:image/png;base64,${bird}" alt=""></div><div class="tag">GAME / AI TESTING / AI ENVIRONMENT / SES</div></div>
 </div></body></html>`;
 
 const browser = await chromium.launch();

@@ -6,7 +6,7 @@ import Ja from '../ui/Ja.astro';
 import AgentConsole from './AgentConsole.astro';
 import { site } from '../../data/site';
 
-const keywords = ['AUTONOMOUS DEVELOPMENT', '24/7 REGRESSION TESTING', 'GAME STUDIO', 'AI QUALITY ASSURANCE', 'HUMAN IN THE LOOP', 'CONTINUOUS DELIVERY'];
+const keywords = ['AI AT FULL THROTTLE', '24/7 REGRESSION TESTING', 'GAME STUDIO', 'AI QUALITY ASSURANCE', 'HUMAN IN THE LOOP', 'CONTINUOUS DELIVERY'];
 ---
 
 <section class="hero" aria-labelledby="hero-title" data-hero>
@@ -16,13 +16,13 @@ const keywords = ['AUTONOMOUS DEVELOPMENT', '24/7 REGRESSION TESTING', 'GAME STU
     <div class="hero__head">
       <StatusChip />
       <h1 id="hero-title" class="hero__title">
-        <span class="hero__line"><Ja text="止まらないAI開発を、" /></span>
-        <span class="hero__line hero__line--accent"><Ja text="仕組みにする。" /></span>
+        <span class="hero__line"><Ja text="AIに、" /></span>
+        <span class="hero__line hero__line--accent"><Ja text="休みはない。" /></span>
       </h1>
     </div>
     <div class="hero__body">
       <p class="hero__lead">
-        <Ja text="我々は、AIエージェントが昼も夜も実装とテストを回し続ける開発体制で、ゲームとシステムをつくっています。その仕組みを、あなたのチームにも。" />
+        <Ja text="我々は、AIエージェントを昼も夜も徹底的に動かし続ける開発環境をつくり、ゲームとシステムを開発しています。その環境を、あなたのチームにも。" />
       </p>
       <div class="hero__actions">
         <Button href={site.contactUrl} size="lg" external>お問い合わせ</Button>
@@ -89,7 +89,8 @@ const keywords = ['AUTONOMOUS DEVELOPMENT', '24/7 REGRESSION TESTING', 'GAME STU
       gap: var(--sp-5);
     }
     .hero__title {
-      font-size: var(--fs-display);
+      /* 見出しが短いので、LP らしく大きく見せる（320px で 44px、1440px で約 130px、4K で 144px） */
+      font-size: clamp(2.75rem, 1rem + 8vw, 9rem);
       line-height: var(--lh-display);
       letter-spacing: 0;
       font-weight: 800;
