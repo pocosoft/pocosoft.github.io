@@ -28,7 +28,7 @@ const html = `<!doctype html><html lang="ja"><head><meta charset="utf-8"><style>
 <div class="inner">
   <div class="chip"><i></i>RUNNING 24/7</div>
   <h1>AIに、<span>休みはない。</span></h1>
-  <div class="foot"><div class="logo">Pocosoft<b>.</b><img src="data:image/png;base64,${bird}" alt=""></div><div class="tag">GAME / AI TESTING / AI ENVIRONMENT / SES</div></div>
+  <div class="foot"><div class="logo">Pocosoft<b>.</b><img src="data:image/png;base64,${bird}" alt=""></div><div class="tag">SES / GAME / AI TESTING / AI ENVIRONMENT</div></div>
 </div></body></html>`;
 
 const browser = await chromium.launch();

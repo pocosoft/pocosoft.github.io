@@ -19,7 +19,6 @@ const hasVisual = Astro.slots.has('default');
     <header class="svc__head">
       <div class="svc__meta">
         <Eyebrow index={String(index).padStart(2, '0')}>{s.code}</Eyebrow>
-        <span class:list={['svc__status', { 'is-hot': s.status === '強化中' }]}>{s.status}</span>
       </div>
       <h2 id={`${s.id}-title`} class="svc__title"><Ja text={s.title} /></h2>
       <p class="svc__lead"><Ja text={s.lead} /></p>
@@ -69,19 +68,6 @@ const hasVisual = Astro.slots.has('default');
       flex-wrap: wrap;
       align-items: center;
       gap: var(--sp-3);
-    }
-    .svc__status {
-      padding: 0 0.7em;
-      border-radius: var(--r-pill);
-      border: 1px solid var(--c-line-strong);
-      color: var(--c-text-muted);
-      font-size: var(--fs-xs);
-      line-height: 1.8;
-    }
-    .svc__status.is-hot {
-      border-color: rgb(132 186 63 / 0.5);
-      color: var(--c-brand-hi);
-      background: rgb(132 186 63 / 0.08);
     }
     .svc__title {
       font-size: var(--fs-3xl);

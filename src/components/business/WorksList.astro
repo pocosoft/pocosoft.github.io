@@ -2,12 +2,17 @@
 import Eyebrow from '../ui/Eyebrow.astro';
 import Ja from '../ui/Ja.astro';
 import { sesWorks, projectWorks } from '../../data/works';
+
+interface Props {
+  index: number;
+}
+const { index } = Astro.props;
 ---
 
 <section id="works" class="section section--raise" aria-labelledby="works-title">
   <div class="container">
     <header class="section-head">
-      <Eyebrow index="05">WORKS</Eyebrow>
+      <Eyebrow index={String(index).padStart(2, '0')}>WORKS</Eyebrow>
       <h2 id="works-title" class="section-head__title">実績</h2>
       <p class="section-head__lead">
         <Ja text="SES・開発支援で参画したプロジェクトの一部です。守秘義務のため、業種と役割のみを記載しています。" />

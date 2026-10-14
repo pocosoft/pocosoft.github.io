@@ -4,7 +4,13 @@ import Eyebrow from '../ui/Eyebrow.astro';
 import Icon from '../ui/Icon.astro';
 import Ja from '../ui/Ja.astro';
 import { services } from '../../data/services';
+import { skills } from '../../data/skills';
 import mahjongIcon from '../../assets/apps/mahjong-monsters.png';
+
+// カードに見せる代表的な技術
+const featured = ['Swift', 'Kotlin', 'Flutter', 'Objective-C', 'Java', 'Python', 'XCTest', 'GitHub Actions'].filter((t) =>
+  skills.some((g) => g.items.includes(t)),
+);
 ---
 
 <section class="section bento-section" aria-labelledby="business-title">
@@ -13,7 +19,7 @@ import mahjongIcon from '../../assets/apps/mahjong-monsters.png';
       <Eyebrow index="03">BUSINESS</Eyebrow>
       <h2 id="business-title" class="section-head__title"><Ja text="同じ環境で、4つの事業を。" /></h2>
       <p class="section-head__lead">
-        <Ja text="ゲーム制作とAI動作確認支援を強化しながら、AIフル稼働環境そのものの提供と、エンジニアの参画も続けています。" />
+        <Ja text="主力のSESから、ゲーム制作、AIによる動作確認、AIフル稼働環境の構築まで。どの事業でも、AIを休ませずに動かしています。" />
       </p>
     </header>
 
@@ -25,7 +31,6 @@ import mahjongIcon from '../../assets/apps/mahjong-monsters.png';
             <a class="card" href={`/business.html#${s.id}`}>
               <div class="card__top">
                 <span class="card__code">{s.code}</span>
-                <span class:list={['card__status', { 'is-hot': s.status === '強化中' }]}>{s.status}</span>
               </div>
 
               {s.id === 'game' && (
@@ -87,10 +92,20 @@ import mahjongIcon from '../../assets/apps/mahjong-monsters.png';
               )}
 
               {s.id === 'ses' && (
-                <div class="viz viz--roles" aria-hidden="true">
-                  {['TECH LEAD', 'PM', 'ENGINEER'].map((r) => (
-                    <span>{r}</span>
-                  ))}
+                <div class="viz viz--ses" aria-hidden="true">
+                  <div class="ses__roles">
+                    {['TECH LEAD', 'PM', 'ENGINEER'].map((r) => (
+                      <span class="ses__role">{r}</span>
+                    ))}
+                  </div>
+                  <div class="ses__stack">
+                    {featured.map((t, k) => (
+                      <span class="ses__tech" style={`--k:${k}`}>
+                        {t}
+                      </span>
+                    ))}
+                    <span class="ses__tech ses__tech--more">+ AI</span>
+                  </div>
                 </div>
               )}
 
@@ -181,19 +196,6 @@ import mahjongIcon from '../../assets/apps/mahjong-monsters.png';
     }
     .card__code {
       color: var(--c-brand);
-    }
-    .card__status {
-      padding: 0 0.7em;
-      border-radius: var(--r-pill);
-      border: 1px solid var(--c-line-strong);
-      color: var(--c-text-muted);
-      letter-spacing: 0.04em;
-      white-space: nowrap;
-    }
-    .card__status.is-hot {
-      border-color: rgb(132 186 63 / 0.5);
-      color: var(--c-brand-hi);
-      background: rgb(132 186 63 / 0.08);
     }
     .card__body {
       display: grid;
@@ -405,23 +407,43 @@ import mahjongIcon from '../../assets/apps/mahjong-monsters.png';
     }
 
     /* SES */
-    .viz--roles {
-      display: flex;
-      flex-wrap: wrap;
+    .viz--ses {
+      display: grid;
       align-content: center;
-      justify-content: center;
-      gap: var(--sp-2);
+      gap: var(--sp-4);
       padding: var(--sp-5);
     }
-    .viz--roles span {
+    .ses__roles,
+    .ses__stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--sp-2);
+    }
+    .ses__role {
       padding: 0.3em 0.9em;
       border-radius: var(--r-pill);
-      border: 1px solid var(--c-line-strong);
-      color: var(--c-text-muted);
+      border: 1px solid rgb(132 186 63 / 0.45);
+      background: rgb(132 186 63 / 0.08);
+      color: var(--c-brand-hi);
       letter-spacing: 0.1em;
+    }
+    .ses__tech {
+      padding: 0.25em 0.75em;
+      border-radius: var(--r-xs);
+      border: 1px solid var(--c-line-strong);
+      background: var(--c-surface);
+      color: var(--c-text-muted);
+    }
+    .ses__tech--more {
+      color: var(--c-brand);
+      border-style: dashed;
     }
 
     @media (prefers-reduced-motion: no-preference) {
+      .ses__tech {
+        animation: tech-glow 4.8s var(--ease-io) infinite;
+        animation-delay: calc(var(--k) * 0.6s);
+      }
       .viz-game__bars i {
         animation: bar-fill 3.2s var(--ease-io) infinite;
         animation-delay: calc(var(--k) * 0.45s);
@@ -437,6 +459,19 @@ import mahjongIcon from '../../assets/apps/mahjong-monsters.png';
       }
       :global(.js) .bento__cell:not(:global(.is-in)) * {
         animation-play-state: paused;
+      }
+    }
+    @keyframes tech-glow {
+      0%,
+      70%,
+      100% {
+        border-color: var(--c-line-strong);
+        color: var(--c-text-muted);
+      }
+      10%,
+      30% {
+        border-color: rgb(132 186 63 / 0.6);
+        color: var(--c-text);
       }
     }
     @keyframes bar-fill {
@@ -476,16 +511,19 @@ import mahjongIcon from '../../assets/apps/mahjong-monsters.png';
     @container (min-width: 64rem) {
       .bento {
         grid-template-columns: repeat(6, minmax(0, 1fr));
+        grid-auto-flow: dense;
       }
-      .bento__cell--game {
-        grid-column: span 4;
+      /* 主力の SES を左上に大きく、縦長の AI動作確認を右の列に通し、残り2つを SES の下に並べる */
+      .bento__cell--ses {
+        grid-column: 1 / span 4;
+        grid-row: 1;
       }
       .bento__cell--ai-testing {
-        grid-column: span 2;
-        grid-row: span 2;
+        grid-column: 5 / span 2;
+        grid-row: 1 / span 2;
       }
-      .bento__cell--ai-dev,
-      .bento__cell--ses {
+      .bento__cell--game,
+      .bento__cell--ai-dev {
         grid-column: span 2;
       }
       .bento__cell--ai-testing .viz--phone {

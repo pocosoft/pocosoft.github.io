@@ -1,0 +1,78 @@
+---
+import { skills } from '../../data/skills';
+---
+
+<div class="stack">
+  <p class="stack__label">対応できる技術</p>
+  <dl class="stack__groups">
+    {
+      skills.map((g) => (
+        <div class="stack__group">
+          <dt>{g.group}</dt>
+          <dd>
+            <ul role="list">
+              {g.items.map((t) => (
+                <li>{t}</li>
+              ))}
+            </ul>
+          </dd>
+        </div>
+      ))
+    }
+  </dl>
+</div>
+
+<style>
+  @layer components {
+    .stack {
+      display: grid;
+      gap: var(--sp-4);
+      padding: clamp(var(--sp-5), 1rem + 1.5vw, var(--sp-7));
+      border-radius: var(--r-lg);
+      border: 1px solid var(--c-line-strong);
+      background: var(--c-surface);
+      box-shadow: var(--edge);
+    }
+    .stack__label {
+      font-family: var(--font-mono);
+      font-size: var(--fs-xs);
+      letter-spacing: 0.14em;
+      color: var(--c-brand);
+    }
+    .stack__groups {
+      display: grid;
+      gap: var(--sp-4);
+    }
+    .stack__group {
+      display: grid;
+      gap: var(--sp-2);
+      padding-block-start: var(--sp-4);
+      border-block-start: 1px solid var(--c-line);
+    }
+    @media (min-width: 40em) {
+      .stack__group {
+        grid-template-columns: 9em minmax(0, 1fr);
+        align-items: baseline;
+      }
+    }
+    .stack__group dt {
+      color: var(--c-text-muted);
+      font-size: var(--fs-sm);
+    }
+    .stack__group ul {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--sp-2);
+    }
+    .stack__group li {
+      padding: 0.2em 0.75em;
+      border-radius: var(--r-xs);
+      border: 1px solid var(--c-line-strong);
+      background: var(--c-bg);
+      font-family: var(--font-mono);
+      font-size: var(--fs-xs);
+      line-height: 1.8;
+      white-space: nowrap;
+    }
+  }
+</style>
