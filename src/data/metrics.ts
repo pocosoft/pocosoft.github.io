@@ -18,15 +18,16 @@ export type CaseStudy = {
   metrics: Metric[];
 };
 
+// 自動テストの件数は、CI（pocosoft-inc/mahjong_crash の ci.yml）の最新の成功した実行で
+// 通ったテストの数（2026-10-14 時点で 2,916 件）を、切り捨てて載せている。
 export const caseMahjong: CaseStudy = {
   product: '麻雀モンスターズ',
   source: '自社調べ',
-  asOf: 'TODO',
+  asOf: '2026年10月',
   metrics: [
-    { id: 'period', pillar: 'speed', label: '企画からリリースまで', value: 'TODO', unit: 'か月' },
-    { id: 'team', pillar: 'cost', label: '開発メンバー', value: 'TODO', unit: '名' },
-    { id: 'agent-hours', pillar: 'quality', label: 'AIエージェントの稼働', value: 'TODO', unit: '時間' },
-    { id: 'test-runs', pillar: 'quality', label: 'AIによる動作確認', value: 'TODO', unit: '回' },
+    { id: 'period', pillar: 'speed', label: '企画からリリースまで', value: 1, unit: 'か月' },
+    { id: 'team', pillar: 'cost', label: '開発体制', value: 1.5, unit: '名', decimals: 1 },
+    { id: 'tests', pillar: 'quality', label: '変更のたびに回す自動テスト', value: 2900, unit: '件以上' },
   ],
 };
 
