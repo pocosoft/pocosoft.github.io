@@ -1,0 +1,404 @@
+/*
+ * ドット調（スーパーファミコン風）のテーマ。
+ * 部品のレイアウトはそのままに、見た目だけをここで上書きする（@layer theme は components より強い）。
+ */
+
+/* ---------- 画面全体 ---------- */
+html {
+  image-rendering: auto;
+}
+
+/* ブラウン管の走査線（ごく薄く） */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+  background: repeating-linear-gradient(to bottom, transparent 0 var(--px), rgb(0 0 0 / 0.14) var(--px) calc(var(--px) * 2));
+}
+
+h1,
+h2 {
+  text-shadow: var(--px) var(--px) 0 #000;
+}
+
+::selection {
+  background: var(--c-brand);
+  color: #000;
+}
+
+:focus-visible {
+  outline: var(--px) solid var(--c-brand-hi);
+  outline-offset: var(--px);
+  border-radius: 0;
+}
+
+/* ---------- RPG のウィンドウ ---------- */
+:is(.card, .pillar, .case, .work, .product, .flow__step, .stack, .dash, .console, .cta__panel, .nf__log, .px-window) {
+  border-style: solid;
+  border-width: calc(var(--px) * 3);
+  border-image: var(--frame) 3 / calc(var(--px) * 3) / 0 stretch;
+  background: var(--c-win);
+  background-clip: padding-box;
+  border-radius: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.card::before {
+  display: none;
+}
+.card:hover,
+.card:focus-visible {
+  border-image-source: var(--frame-brand);
+  box-shadow: none;
+}
+
+/* ウィンドウの中の小窓は細い線だけにする */
+:is(.viz, .phone, .pipe__node, .stack__group li, .ses__tech, .ses__role, .work__role, .chip, .console__sim, .dash__sim, .mech__actor, .mech__label) {
+  border-radius: 0;
+}
+.viz {
+  border: var(--px) solid var(--c-line-strong);
+  background:
+    linear-gradient(to right, rgb(132 186 63 / 0.08) var(--px), transparent var(--px)) 0 0 / calc(var(--px) * 8) calc(var(--px) * 8),
+    linear-gradient(to bottom, rgb(132 186 63 / 0.08) var(--px), transparent var(--px)) 0 0 / calc(var(--px) * 8) calc(var(--px) * 8),
+    #000;
+}
+
+/* ---------- 文字 ---------- */
+.eyebrow {
+  font-family: var(--font-arcade);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.04em;
+  line-height: 1.8;
+}
+.eyebrow::before {
+  inline-size: 0.6em;
+  block-size: 0.6em;
+  background: currentColor;
+  opacity: 1;
+}
+
+.chip {
+  font-family: var(--font-arcade);
+  letter-spacing: 0.02em;
+  border-width: var(--px);
+  background: #000;
+}
+.chip__dot {
+  border-radius: 0;
+}
+
+:is(.card__code, .pillar__code, .metric__pillar, .case__label, .stack__label, .product__platforms, .mech__step-no, .flow__no, .site-footer__heading, .svc__sub) {
+  font-family: var(--font-arcade);
+  letter-spacing: 0.04em;
+}
+
+/* 数字はドットの太い数字に */
+.metric__num {
+  font-family: var(--font-pixel);
+  background: none;
+  -webkit-background-clip: border-box;
+  background-clip: border-box;
+  color: var(--c-brand-hi);
+  text-shadow: calc(var(--px) * 2) calc(var(--px) * 2) 0 #000;
+  letter-spacing: 0;
+}
+
+/* ---------- ボタン ---------- */
+.btn {
+  border-radius: 0;
+  font-family: var(--font-pixel);
+  letter-spacing: 0.06em;
+  box-shadow:
+    0 0 0 var(--px) #000,
+    inset calc(var(--px) * -1) calc(var(--px) * -1) 0 0 rgb(0 0 0 / 0.35),
+    inset var(--px) var(--px) 0 0 rgb(255 255 255 / 0.35);
+  transition: none;
+}
+.btn--primary {
+  color: #050806;
+}
+.btn--primary:hover {
+  box-shadow:
+    0 0 0 var(--px) #000,
+    inset calc(var(--px) * -1) calc(var(--px) * -1) 0 0 rgb(0 0 0 / 0.35),
+    inset var(--px) var(--px) 0 0 rgb(255 255 255 / 0.5);
+}
+.btn--ghost {
+  background: var(--c-win);
+  background-clip: padding-box;
+  border-style: solid;
+  border-width: calc(var(--px) * 3);
+  border-image: var(--frame) 3 / calc(var(--px) * 3) / 0 stretch;
+  box-shadow: none;
+}
+.btn--ghost:hover {
+  border-image-source: var(--frame-brand);
+  color: var(--c-brand-hi);
+}
+.btn:active {
+  translate: 0 var(--px);
+}
+
+/* ---------- 選択カーソル（▶） ---------- */
+:is(.site-nav a, .menu-panel__list a, .card__more, .site-footer__nav a, .subnav a) {
+  position: relative;
+}
+:is(.menu-panel__list a, .card__more, .site-footer__nav a)::before,
+.site-nav a::before {
+  content: '';
+  position: absolute;
+  inset-inline-start: -0.9em;
+  inset-block-start: 50%;
+  inline-size: 0.5em;
+  block-size: 0.875em;
+  translate: 0 -50%;
+  background: var(--c-brand-hi);
+  clip-path: polygon(0 0, 25% 0, 25% 14%, 50% 14%, 50% 28%, 75% 28%, 75% 42%, 100% 42%, 100% 58%, 75% 58%, 75% 72%, 50% 72%, 50% 86%, 25% 86%, 25% 100%, 0 100%);
+  opacity: 0;
+}
+.site-nav a::before {
+  inset-inline-start: 0.2em;
+}
+:is(.site-nav a, .menu-panel__list a, .card__more, .site-footer__nav a):is(:hover, :focus-visible)::before,
+.card:is(:hover, :focus-visible) .card__more::before,
+.site-nav a[aria-current='page']::before {
+  opacity: 1;
+}
+.card__more {
+  margin-inline-start: 1em;
+}
+.site-footer__nav a,
+.menu-panel__list a {
+  margin-inline-start: 1em;
+}
+@media (prefers-reduced-motion: no-preference) {
+  :is(.site-nav a, .menu-panel__list a, .card__more, .site-footer__nav a):is(:hover, :focus-visible)::before,
+  .card:hover .card__more::before {
+    animation: px-blink 0.8s steps(1) infinite;
+  }
+}
+@keyframes px-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* ---------- ヘッダー ---------- */
+.site-header,
+.site-header[data-scrolled] {
+  background: #000;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-block-end: var(--px) solid var(--c-line-strong);
+}
+.site-nav a {
+  border-radius: 0;
+  padding-inline: 1.2em 0.9em;
+}
+.site-nav a:hover,
+.site-nav a[aria-current='page'] {
+  background: transparent;
+  color: var(--c-brand-hi);
+}
+.site-header__cta {
+  border-radius: 0;
+  box-shadow:
+    0 0 0 var(--px) #000,
+    inset calc(var(--px) * -1) calc(var(--px) * -1) 0 0 rgb(0 0 0 / 0.35),
+    inset var(--px) var(--px) 0 0 rgb(255 255 255 / 0.35);
+  color: #050806;
+}
+.menu-btn {
+  border-radius: 0;
+  border-width: var(--px);
+  background: #000;
+}
+.menu-panel {
+  background: #000;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+.menu-panel__list a {
+  border-block-end-width: var(--px);
+}
+.menu-panel__cta {
+  border-radius: 0;
+  color: #050806;
+}
+
+/* ---------- 背景（星空） ---------- */
+.backdrop__grid {
+  mask-image: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' shape-rendering='crispEdges'%3E%3Crect x='3' y='5' width='1' height='1' fill='%23e8efe4'/%3E%3Crect x='29' y='11' width='1' height='1' fill='%23a3d160'/%3E%3Crect x='17' y='27' width='1' height='1' fill='%23e8efe4' fill-opacity='.6'/%3E%3Crect x='41' y='35' width='1' height='1' fill='%23e8efe4'/%3E%3Crect x='9' y='41' width='1' height='1' fill='%23a3d160' fill-opacity='.7'/%3E%3Crect x='36' y='22' width='1' height='1' fill='%23e8efe4' fill-opacity='.4'/%3E%3C/svg%3E");
+  background-size: calc(var(--px) * 48) calc(var(--px) * 48);
+  image-rendering: pixelated;
+  opacity: 0.8;
+}
+.backdrop__glow {
+  opacity: 0.5;
+}
+
+/* ---------- 地面（ページ見出しの下とフッターの上） ---------- */
+:root {
+  --ground: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='10' shape-rendering='crispEdges'%3E%3Cpath fill='%233fab49' d='M0 3h16v2H0z'/%3E%3Cpath fill='%2384ba3f' d='M0 2h16v1H0zM2 1h1v1H2zM9 0h1v2H9zM13 1h1v1h-1z'/%3E%3Cpath fill='%233a2a18' d='M0 5h16v5H0z'/%3E%3Cpath fill='%234a3620' d='M3 7h2v1H3zM11 6h2v1h-2zM7 9h2v1H7z'/%3E%3C/svg%3E");
+}
+.page-hero {
+  padding-block-end: calc(clamp(var(--sp-7), 1.5rem + 4vw, var(--sp-9)) + var(--px) * 10);
+  border-block-end: 0;
+}
+.page-hero::after,
+.site-footer::before {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  block-size: calc(var(--px) * 10);
+  background: var(--ground) repeat-x 0 0 / calc(var(--px) * 16) calc(var(--px) * 10);
+  image-rendering: pixelated;
+}
+.page-hero::after {
+  inset-block-end: 0;
+}
+.page-hero__title {
+  text-shadow: calc(var(--px) * 2) calc(var(--px) * 2) 0 #000;
+}
+
+/* ---------- セクション ---------- */
+.section--raise {
+  background: #070d08;
+}
+.section + .section--raise,
+.section--raise + .section {
+  border-block-start: var(--px) dashed var(--c-line-strong);
+}
+.section-head__title {
+  text-shadow: calc(var(--px) * 2) calc(var(--px) * 2) 0 #000;
+}
+
+/* ---------- なぜ今（RPG の語り） ---------- */
+.statement__text {
+  border-style: solid;
+  border-width: calc(var(--px) * 3);
+  border-image: var(--frame) 3 / calc(var(--px) * 3) / 0 stretch;
+  background: var(--c-win);
+  background-clip: padding-box;
+  padding: clamp(var(--sp-5), 1rem + 3vw, var(--sp-8));
+  max-inline-size: none;
+  line-height: 1.6;
+  text-shadow: none;
+}
+.statement__text::after {
+  content: '';
+  display: inline-block;
+  inline-size: 0.5em;
+  block-size: 0.35em;
+  margin-inline-start: 0.3em;
+  background: var(--c-text);
+  clip-path: polygon(0 0, 100% 0, 100% 34%, 75% 34%, 75% 67%, 62.5% 67%, 62.5% 100%, 37.5% 100%, 37.5% 67%, 25% 67%, 25% 34%, 0 34%);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .statement__text::after {
+    animation: px-blink 0.9s steps(1) infinite;
+  }
+}
+
+/* ---------- 実績の数字 ---------- */
+.case__metrics > * {
+  border-block-start: var(--px) dashed var(--c-line-strong);
+}
+
+/* ---------- コンソール（ログのウィンドウ） ---------- */
+.console {
+  font-family: var(--font-pixel);
+}
+.console__bar,
+.console__foot {
+  border-color: var(--c-line-strong);
+  border-block-end-width: var(--px);
+}
+.console__foot {
+  border-block-start-width: var(--px);
+}
+.console__dots {
+  display: none;
+}
+.console__live {
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* ---------- お問い合わせ ---------- */
+.cta__ring {
+  display: none;
+}
+.cta__title {
+  text-shadow: calc(var(--px) * 2) calc(var(--px) * 2) 0 #000;
+}
+
+/* ---------- 事業内容 ---------- */
+.subnav {
+  background: #000;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-block-end: var(--px) solid var(--c-line-strong);
+}
+.subnav a {
+  border-radius: 0;
+  border-width: var(--px);
+}
+.subnav a[aria-current='true'] {
+  color: #050806;
+}
+.svc__points ul,
+.svc__points li,
+.profile,
+.profile__row {
+  border-color: var(--c-line-strong);
+}
+.svc__points li,
+.profile__row {
+  border-block-end-style: dashed;
+  border-block-end-width: var(--px);
+}
+.work__tasks li::before {
+  border-radius: 0;
+}
+.store-badge {
+  border-radius: 0;
+}
+
+/* ---------- 会社概要 ---------- */
+.timeline::before {
+  inline-size: var(--px);
+  background: var(--c-line-strong);
+}
+.timeline__item::before {
+  border-radius: 0;
+  border-width: var(--px);
+}
+
+/* ---------- フッター ---------- */
+.site-footer {
+  background: #000;
+  border-block-start: 0;
+  padding-block-start: calc(var(--sp-9) + var(--px) * 10);
+}
+.site-footer::before {
+  inset-block-start: 0;
+}
+.site-footer__wordmark {
+  font-family: var(--font-arcade);
+  font-size: min(9vw, 9rem);
+  letter-spacing: 0;
+  line-height: 1;
+  margin-block-end: var(--sp-5);
+  background: none;
+  -webkit-background-clip: border-box;
+  background-clip: border-box;
+  color: #0f2a14;
+  text-shadow: calc(var(--px) * 2) calc(var(--px) * 2) 0 #000;
+}

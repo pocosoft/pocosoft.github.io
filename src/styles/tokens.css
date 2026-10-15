@@ -2,7 +2,7 @@
   color-scheme: dark;
 
   /* 色。コントラストは --c-bg に対する値 */
-  --c-bg: #070b08;
+  --c-bg: #050806;
   --c-bg-raise: #0c130e;
   --c-surface: #101912;
   --c-surface-2: #16221a;
@@ -24,8 +24,11 @@
   /* 文字 */
   /* 和文は端末のフォントを使う（Apple: ヒラギノ / Windows: BIZ UDPゴシック・メイリオ / Android: Noto Sans CJK） */
   --font-jp: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', 'Noto Sans CJK JP', 'BIZ UDPGothic', Meiryo;
-  --font-sans: 'Geist Variable', var(--font-jp), sans-serif;
-  --font-mono: 'Geist Mono Variable', ui-monospace, SFMono-Regular, Menlo, Consolas, var(--font-jp), monospace;
+  /* ドット調。本文も見出しもドットフォントで、英字のラベルと数字はアーケード風のフォントにする */
+  --font-pixel: 'DotGothic16 Subset', var(--font-jp), sans-serif;
+  --font-arcade: 'Press Start 2P', 'DotGothic16 Subset', var(--font-jp), monospace;
+  --font-sans: var(--font-pixel);
+  --font-mono: var(--font-pixel);
   --fs-xs: 0.875rem; /* 14px。これより小さい文字は使わない */
   --fs-sm: 0.9375rem;
   --fs-base: 1rem;
@@ -61,12 +64,22 @@
   --tap: 2.75rem;
 
   /* 角丸と影 */
-  --r-xs: 0.375rem;
-  --r-sm: 0.625rem;
-  --r-md: 1rem;
-  --r-lg: 1.5rem;
-  --r-xl: 2rem;
-  --r-pill: 999px;
+  /* ドット調なので角は丸めない */
+  --r-xs: 0;
+  --r-sm: 0;
+  --r-md: 0;
+  --r-lg: 0;
+  --r-xl: 0;
+  --r-pill: 0;
+
+  /* 1ドットの大きさ。4K では少し大きくする */
+  --px: max(2px, 0.125rem);
+  --c-win: #050a06;
+  --c-win-border: #f2f7ec;
+  /* RPG のウィンドウ枠（9x9 ドット。外側1ドットが黒、内側2ドットが白、四隅を欠く） */
+  --frame: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='9' viewBox='0 0 9 9' shape-rendering='crispEdges'%3E%3Cpath fill='%23000' d='M2 0h5v1H2zM2 8h5v1H2zM0 2h1v5H0zM8 2h1v5H8zM1 1h1v1H1zM7 1h1v1H7zM1 7h1v1H1zM7 7h1v1H7z'/%3E%3Cpath fill='%23f2f7ec' d='M2 1h5v1H2zM1 2h7v1H1zM1 3h2v3H1zM6 3h2v3H6zM1 6h7v1H1zM2 7h5v1H2z'/%3E%3C/svg%3E");
+  --frame-brand: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='9' viewBox='0 0 9 9' shape-rendering='crispEdges'%3E%3Cpath fill='%23000' d='M2 0h5v1H2zM2 8h5v1H2zM0 2h1v5H0zM8 2h1v5H8zM1 1h1v1H1zM7 1h1v1H7zM1 7h1v1H1zM7 7h1v1H7z'/%3E%3Cpath fill='%2384ba3f' d='M2 1h5v1H2zM1 2h7v1H1zM1 3h2v3H1zM6 3h2v3H6zM1 6h7v1H1zM2 7h5v1H2z'/%3E%3C/svg%3E");
+  --frame-dim: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='9' viewBox='0 0 9 9' shape-rendering='crispEdges'%3E%3Cpath fill='%23000' d='M2 0h5v1H2zM2 8h5v1H2zM0 2h1v5H0zM8 2h1v5H8zM1 1h1v1H1zM7 1h1v1H7zM1 7h1v1H1zM7 7h1v1H7z'/%3E%3Cpath fill='%232e4234' d='M2 1h5v1H2zM1 2h7v1H1zM1 3h2v3H1zM6 3h2v3H6zM1 6h7v1H1zM2 7h5v1H2z'/%3E%3C/svg%3E");
   --edge: inset 0 1px 0 rgb(255 255 255 / 0.04);
   --glow-sm: 0 0 0 1px rgb(132 186 63 / 0.25), 0 0 1.5rem rgb(132 186 63 / 0.18);
 

@@ -17,6 +17,7 @@ export function init(root: HTMLElement): () => void {
   const rail = root.querySelector<HTMLElement>('[data-mech-rail]');
   const stepList = root.querySelector<HTMLElement>('[data-steps]')!;
   const total = path.getTotalLength();
+  const initialDot = dot.getAttribute('transform');
   progress.style.strokeDasharray = `${total}`;
 
   const placeDot = (p: number) => {
@@ -33,7 +34,8 @@ export function init(root: HTMLElement): () => void {
   };
   const reset = () => {
     progress.style.strokeDashoffset = '';
-    dot.removeAttribute('transform');
+    if (initialDot) dot.setAttribute('transform', initialDot);
+    else dot.removeAttribute('transform');
     setActive(0);
     nodes.forEach((n) => n.classList.remove('is-lit'));
   };

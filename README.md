@@ -73,6 +73,18 @@ gh api repos/pocosoft/pocosoft.github.io/pages --jq '{build_type, cname, https_e
 gh api --method PUT repos/pocosoft/pocosoft.github.io/pages -f build_type=legacy -f 'source[branch]=main' -f 'source[path]=/'
 ```
 
+## ドット調のデザイン
+
+このブランチ（`claude/company-site-pixel`）は、スーパーファミコン風のドット調デザインです。文言・データ・ページ構成は通常版と同じで、見た目だけが違います。
+
+- テーマは `src/styles/pixel.css`（`@layer theme`）で、部品の見た目を上書きしています。RPG のウィンドウ枠は `src/styles/tokens.css` の `--frame`（9x9 ドットの SVG）です。
+- ヒーローの「ドットの世界」は `src/scripts/hero/pixel-world.ts`、ロボットなどのドット絵は `src/lib/sprites.ts` です。
+- 日本語のドットフォント（DotGothic16）は、サイトで使う文字だけに絞った1ファイル `src/assets/fonts/dotgothic16-subset.woff` を使っています。文言を変えて新しい文字が増えたら、作り直してコミットしてください（足りない文字があると `npm run build` の後の検査で失敗します）。
+
+```bash
+npm run font   # fonttools（pip install fonttools）が必要
+```
+
 ## OGP 画像
 
 デザインを変えたときは `npm run og` で `public/og/default.png` を作り直してコミットします。

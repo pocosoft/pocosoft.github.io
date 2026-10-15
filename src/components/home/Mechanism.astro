@@ -2,15 +2,17 @@
 import Eyebrow from '../ui/Eyebrow.astro';
 import Ja from '../ui/Ja.astro';
 import { mechanism } from '../../data/mechanism';
+import { ROBOT_A, spriteToRects } from '../../lib/sprites';
 
-// viewBox 400x400 の円周上に、上・右・下・左の順でノードを置く
+// viewBox 400x400 の四角いループ。左上・右上・右下・左下の順にノードを置き、ロボットが周回する
 const nodePos = [
-  { x: 200, y: 50 },
-  { x: 350, y: 200 },
-  { x: 200, y: 350 },
-  { x: 50, y: 200 },
+  { x: 80, y: 80 },
+  { x: 320, y: 80 },
+  { x: 320, y: 320 },
+  { x: 80, y: 320 },
 ];
-const loopPath = 'M200,50 A150,150 0 1,1 200,350 A150,150 0 1,1 200,50';
+const loopPath = 'M80,80 H320 V320 H80 Z';
+const robot = spriteToRects(ROBOT_A, 5);
 ---
 
 <section id="mechanism" class="mech" aria-labelledby="mech-title" data-mech style={`--steps:${mechanism.length}`}>
@@ -26,25 +28,19 @@ const loopPath = 'M200,50 A150,150 0 1,1 200,350 A150,150 0 1,1 200,50';
         </header>
 
         <div class="mech__diagram" aria-hidden="true">
-          <svg viewBox="0 0 400 400" class="mech__svg">
-            <defs>
-              <radialGradient id="mech-glow">
-                <stop offset="0" stop-color="#d6f5aa" stop-opacity="0.95"></stop>
-                <stop offset="0.35" stop-color="#84ba3f" stop-opacity="0.55"></stop>
-                <stop offset="1" stop-color="#84ba3f" stop-opacity="0"></stop>
-              </radialGradient>
-            </defs>
-            <circle cx="200" cy="200" r="182" class="mech__halo"></circle>
+          <svg viewBox="0 0 400 400" class="mech__svg" shape-rendering="crispEdges">
+            <rect x="30" y="30" width="340" height="340" class="mech__halo"></rect>
             <path d={loopPath} class="mech__base" data-loop-path></path>
             <path d={loopPath} class="mech__progress" data-loop-progress></path>
             {
               nodePos.map((n, i) => (
-                <circle cx={n.x} cy={n.y} r="11" class:list={['mech__node', { 'is-ai': mechanism[i]!.actor === 'AI' }]} data-loop-node />
+                <rect x={n.x - 14} y={n.y - 14} width="28" height="28" class:list={['mech__node', { 'is-ai': mechanism[i]!.actor === 'AI' }]} data-loop-node />
               ))
             }
-            <g data-loop-dot class="mech__dot" transform="translate(200 50)">
-              <circle r="22" fill="url(#mech-glow)"></circle>
-              <circle r="5" fill="#ecf3ea"></circle>
+            <g data-loop-dot class="mech__dot" transform="translate(80 80)">
+              <g transform="translate(-17.5 -40)">
+                {robot.map((r) => <rect x={r.x} y={r.y} width={r.w} height={r.h} fill={r.fill} />)}
+              </g>
             </g>
           </svg>
           {
@@ -135,26 +131,25 @@ const loopPath = 'M200,50 A150,150 0 1,1 200,350 A150,150 0 1,1 200,50';
     .mech__halo {
       fill: none;
       stroke: var(--c-line);
-      stroke-width: 1;
-      stroke-dasharray: 2 6;
+      stroke-width: 4;
+      stroke-dasharray: 4 12;
     }
     .mech__base {
       fill: none;
       stroke: var(--c-line-strong);
-      stroke-width: 2;
+      stroke-width: 12;
+      stroke-dasharray: 12 8;
     }
     .mech__progress {
       fill: none;
       stroke: var(--c-brand);
-      stroke-width: 3;
-      stroke-linecap: round;
-      filter: drop-shadow(0 0 6px rgb(132 186 63 / 0.6));
+      stroke-width: 12;
+      stroke-linecap: square;
     }
     .mech__node {
       fill: var(--c-brand);
       stroke: var(--c-brand);
-      stroke-width: 2;
-      transition: fill var(--dur-2);
+      stroke-width: 4;
     }
     .mech__node.is-ai {
       stroke: var(--c-brand-light);
@@ -171,8 +166,8 @@ const loopPath = 'M200,50 A150,150 0 1,1 200,350 A150,150 0 1,1 200,50';
       white-space: nowrap;
       padding: 0.1em 0.6em;
       border-radius: var(--r-pill);
-      background: var(--c-bg-raise);
-      border: 1px solid var(--c-line-strong);
+      background: #000;
+      border: var(--px) solid var(--c-line-strong);
       color: var(--c-text-muted);
       line-height: 1.6;
       transition: color var(--dur-2), border-color var(--dur-2);
@@ -185,20 +180,18 @@ const loopPath = 'M200,50 A150,150 0 1,1 200,350 A150,150 0 1,1 200,50';
       color: var(--c-text);
       border-color: var(--c-brand);
     }
-    /* 左右のラベルはノードの上、上下のラベルは円の内側に置く */
+    /* ラベルは四隅のノードの内側に置く */
     .mech__label--0 {
-      inset: 23% auto auto 50%;
+      inset: 31% auto auto 31%;
     }
     .mech__label--1 {
-      inset: 40% 0 auto auto;
-      translate: 0 -50%;
+      inset: 31% auto auto 69%;
     }
     .mech__label--2 {
-      inset: 77% auto auto 50%;
+      inset: 69% auto auto 69%;
     }
     .mech__label--3 {
-      inset: 40% auto auto 0;
-      translate: 0 -50%;
+      inset: 69% auto auto 31%;
     }
     .mech__center {
       position: absolute;
@@ -210,14 +203,11 @@ const loopPath = 'M200,50 A150,150 0 1,1 200,350 A150,150 0 1,1 200,50';
       pointer-events: none;
     }
     .mech__center-big {
-      font-family: var(--font-sans);
-      font-weight: 800;
-      font-size: clamp(1.75rem, 1rem + 2.5vw, 3rem);
+      font-family: var(--font-arcade);
+      font-size: clamp(1.25rem, 0.75rem + 2vw, 2.25rem);
       line-height: 1;
-      background: linear-gradient(180deg, var(--c-text), var(--c-brand-light));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
+      color: var(--c-brand-hi);
+      text-shadow: var(--px) var(--px) 0 #000;
     }
     .mech__center-small {
       color: var(--c-text-subtle);

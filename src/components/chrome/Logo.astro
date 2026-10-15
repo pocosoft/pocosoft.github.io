@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets';
-import bird from '../../assets/brand/bird.png';
+import bird from '../../assets/brand/bird-pixel.png';
 
 interface Props {
   size?: 'md' | 'lg';
@@ -10,7 +10,7 @@ const { size = 'md' } = Astro.props;
 
 <span class:list={['logo', `logo--${size}`]}>
   <span class="logo__word" aria-hidden="true">Pocosoft<span class="logo__dot">.</span></span>
-  <Image src={bird} alt="" width={40} height={40} densities={[1, 2, 3]} class="logo__bird" loading="eager" />
+  <Image src={bird} alt="" width={26} height={26} format="png" class="logo__bird" loading="eager" />
 </span>
 
 <style>
@@ -18,21 +18,25 @@ const { size = 'md' } = Astro.props;
     .logo {
       display: inline-flex;
       align-items: center;
-      gap: 0.3em;
-      font-family: var(--font-mono);
-      font-weight: 600;
-      font-size: 1.125rem;
-      letter-spacing: 0.02em;
+      gap: 0.5em;
+      font-family: var(--font-arcade);
+      font-size: 0.875rem;
       color: var(--c-text);
       line-height: 1;
     }
     .logo--lg {
-      font-size: 1.5rem;
+      font-size: 1.125rem;
     }
     .logo :global(.logo__bird) {
-      inline-size: 1.9em;
-      block-size: 1.9em;
-      margin-block: -0.4em;
+      /* 26 ドットの鳥を、ちょうど整数倍で拡大する */
+      inline-size: calc(var(--px) * 26);
+      block-size: calc(var(--px) * 26);
+      image-rendering: pixelated;
+      margin-block: -0.6em;
+    }
+    .logo--lg :global(.logo__bird) {
+      inline-size: calc(var(--px) * 39);
+      block-size: calc(var(--px) * 39);
     }
     .logo__dot {
       color: var(--c-brand);

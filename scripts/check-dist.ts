@@ -4,6 +4,7 @@
 // - 仮の文字列（TODO など）が残っていないこと
 // - 日本語の文中に余計な半角スペースが入っていないこと
 // - サイト内リンクとページ内アンカーがすべて解決すること
+// - ドットフォント（文字を絞ったもの）に、ページで使う文字がすべて入っていること
 import { createHash } from 'node:crypto';
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
@@ -104,6 +105,19 @@ for (const [file, html] of pageHtml) {
   for (const m of html.matchAll(/\shref="#([^"]+)"/g)) {
     if (!ids.has(m[1]!)) errors.push(`${file}: ページ内アンカーがありません #${m[1]}`);
   }
+}
+
+// ドットフォントに無い文字があると、その文字だけ端末のフォントで表示されてしまう
+const covered = new Set(readFileSync('src/assets/fonts/dotgothic16-subset.chars.txt', 'utf8'));
+const missing = new Set<string>();
+for (const html of pageHtml.values()) {
+  for (const ch of textOf(html).replace(/&[a-z#0-9]+;/gi, ' ')) {
+    if (/\s/.test(ch)) continue;
+    if (!covered.has(ch)) missing.add(ch);
+  }
+}
+if (missing.size) {
+  errors.push(`ドットフォントに無い文字があります「${[...missing].join('')}」。python3 scripts/subset-pixel-font.py を実行してください`);
 }
 
 if (errors.length) {

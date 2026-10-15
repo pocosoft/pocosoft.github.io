@@ -1,0 +1,8 @@
+/* DotGothic16 を、サイトで使う文字だけに絞ったもの（scripts/subset-pixel-font.py で作る） */
+@font-face {
+  font-family: 'DotGothic16 Subset';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/dotgothic16-subset.woff') format('woff');
+}

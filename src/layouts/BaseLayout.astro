@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import geistLatin from '@fontsource-variable/geist/files/geist-latin-wght-normal.woff2?url';
+import pixelFont from '../assets/fonts/dotgothic16-subset.woff?url';
 import Seo from '../components/head/Seo.astro';
 import JsonLd from '../components/head/JsonLd.astro';
 import Analytics from '../components/head/Analytics.astro';
@@ -26,7 +26,7 @@ const { page, isHome = false } = Astro.props;
     <script is:inline>
       document.documentElement.classList.add('js');
     </script>
-    <link rel="preload" href={geistLatin} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={pixelFont} as="font" type="font/woff" crossorigin />
     <Seo page={page} />
     <JsonLd isHome={isHome} />
     <Analytics />

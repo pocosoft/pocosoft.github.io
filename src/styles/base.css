@@ -20,14 +20,14 @@ body {
   line-break: strict;
   text-wrap: pretty;
   font-kerning: normal;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   overflow-wrap: anywhere;
+  /* ドットフォントに太字を作らせない */
+  font-synthesis: none;
 }
 
 h1, h2, h3, h4 {
   line-height: var(--lh-heading);
-  font-weight: 700;
+  font-weight: 400;
   letter-spacing: 0.02em;
   font-feature-settings: 'palt';
   word-break: keep-all;
