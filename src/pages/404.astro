@@ -1,0 +1,71 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Backdrop from '../components/ui/Backdrop.astro';
+import Button from '../components/ui/Button.astro';
+import { pages } from '../lib/seo';
+---
+
+<BaseLayout page={pages.notFound}>
+  <section class="nf">
+    <Backdrop variant="hero" />
+    <div class="container nf__inner">
+      <p class="nf__code mono" aria-hidden="true">404 — ROUTE NOT FOUND</p>
+      <h1 class="nf__title">ページが見つかりません</h1>
+      <div class="nf__log mono" aria-hidden="true">
+        <p><span class="brand">agent</span> 指定された URL を探索… 該当なし</p>
+        <p><span class="brand">agent</span> 代わりのページを提案します</p>
+      </div>
+      <p class="nf__text">お探しのページは移動または削除された可能性があります。</p>
+      <div class="nf__actions">
+        <Button href="/">トップへ</Button>
+        <Button href="/business.html" variant="ghost">事業内容</Button>
+        <Button href="/company.html" variant="ghost">会社概要</Button>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .nf {
+    position: relative;
+    isolation: isolate;
+    min-block-size: 80svh;
+    display: grid;
+    align-items: center;
+    padding-block: calc(var(--header-h) + var(--sp-8)) var(--sp-9);
+  }
+  .nf__inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: var(--sp-5);
+    justify-items: start;
+  }
+  .nf__code {
+    color: var(--c-brand);
+    font-size: var(--fs-sm);
+    letter-spacing: 0.14em;
+  }
+  .nf__title {
+    font-size: var(--fs-3xl);
+  }
+  .nf__log {
+    display: grid;
+    gap: var(--sp-1);
+    padding: var(--sp-4) var(--sp-5);
+    border: 1px solid var(--c-line);
+    border-radius: var(--r-md);
+    background: var(--c-surface);
+    color: var(--c-text-muted);
+    font-size: var(--fs-xs);
+    line-height: var(--lh-mono);
+  }
+  .nf__text {
+    color: var(--c-text-muted);
+  }
+  .nf__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-3);
+  }
+</style>

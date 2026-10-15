@@ -1,0 +1,80 @@
+:root {
+  color-scheme: dark;
+
+  /* 色。コントラストは --c-bg に対する値 */
+  --c-bg: #070b08;
+  --c-bg-raise: #0c130e;
+  --c-surface: #101912;
+  --c-surface-2: #16221a;
+  --c-line: #1f2d23;
+  --c-line-strong: #2e4234;
+  --c-text: #ecf3ea; /* 17.5:1 */
+  --c-text-muted: #a9b8a8; /* 9.5:1 */
+  --c-text-subtle: #849483; /* 6.2:1。文字に使う最も薄い色 */
+  --c-brand: #84ba3f; /* コンセプトカラー。8.6:1 */
+  --c-brand-hi: #a3d160;
+  --c-brand-2: #3fab49;
+  --c-brand-light: #7ec380;
+  --c-brand-dark: #016435; /* 塗り専用 */
+  --c-on-brand: #070b08;
+  --c-danger: #ff8a7a;
+  --glow: rgb(132 186 63 / 0.35);
+  --glow-soft: rgb(132 186 63 / 0.14);
+
+  /* 文字 */
+  /* 和文は端末のフォントを使う（Apple: ヒラギノ / Windows: BIZ UDPゴシック・メイリオ / Android: Noto Sans CJK） */
+  --font-jp: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', 'Noto Sans CJK JP', 'BIZ UDPGothic', Meiryo;
+  --font-sans: 'Geist Variable', var(--font-jp), sans-serif;
+  --font-mono: 'Geist Mono Variable', ui-monospace, SFMono-Regular, Menlo, Consolas, var(--font-jp), monospace;
+  --fs-xs: 0.875rem; /* 14px。これより小さい文字は使わない */
+  --fs-sm: 0.9375rem;
+  --fs-base: 1rem;
+  --fs-md: clamp(1.0625rem, 1rem + 0.25vw, 1.25rem);
+  --fs-lg: clamp(1.125rem, 1rem + 0.6vw, 1.5rem);
+  --fs-xl: clamp(1.25rem, 1.05rem + 1vw, 2rem);
+  --fs-2xl: clamp(1.625rem, 1.1rem + 2.2vw, 3rem);
+  --fs-3xl: clamp(2rem, 1.1rem + 3.8vw, 4.25rem);
+  --fs-display: clamp(2.25rem, 1rem + 5vw, 5.5rem);
+  --fs-metric: clamp(2.75rem, 1rem + 6vw, 7rem);
+  --lh-display: 1.15;
+  --lh-heading: 1.4;
+  --lh-body: 1.85;
+  --lh-mono: 1.6;
+
+  /* 余白と幅 */
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 0.75rem;
+  --sp-4: 1rem;
+  --sp-5: 1.5rem;
+  --sp-6: 2rem;
+  --sp-7: 3rem;
+  --sp-8: 4rem;
+  --sp-9: 6rem;
+  --sp-10: 8rem;
+  --gutter: clamp(1.25rem, 0.6rem + 3.2vw, 3.5rem);
+  --section-y: clamp(4.5rem, 2.5rem + 8vw, 11rem);
+  --w-wide: 90rem;
+  --w-measure: 38em;
+  --header-h: 3.75rem;
+  --scroll-offset: calc(var(--header-h) + 1rem);
+  --tap: 2.75rem;
+
+  /* 角丸と影 */
+  --r-xs: 0.375rem;
+  --r-sm: 0.625rem;
+  --r-md: 1rem;
+  --r-lg: 1.5rem;
+  --r-xl: 2rem;
+  --r-pill: 999px;
+  --edge: inset 0 1px 0 rgb(255 255 255 / 0.04);
+  --glow-sm: 0 0 0 1px rgb(132 186 63 / 0.25), 0 0 1.5rem rgb(132 186 63 / 0.18);
+
+  /* 動き */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-io: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-1: 160ms;
+  --dur-2: 320ms;
+  --dur-3: 640ms;
+  --dur-4: 1000ms;
+}

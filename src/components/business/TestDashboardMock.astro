@@ -1,0 +1,166 @@
+---
+import Icon from '../ui/Icon.astro';
+
+const runs = [
+  { name: 'ログイン・ログアウト', device: 'iPhone', status: 'pass' },
+  { name: '商品一覧のスクロール', device: 'Android', status: 'pass' },
+  { name: '購入フロー', device: 'Web', status: 'pass' },
+  { name: '設定の保存', device: 'iPad', status: 'run' },
+  { name: 'プッシュ通知の受信', device: 'Android', status: 'queue' },
+] as const;
+const label = { pass: 'PASS', run: 'RUNNING', queue: 'QUEUED' } as const;
+---
+
+<div class="dash" aria-hidden="true">
+  <div class="dash__bar">
+    <span class="dash__title">regression / nightly</span>
+    <span class="dash__sim">動作イメージ</span>
+  </div>
+  <div class="dash__summary">
+    <div><span class="dash__big">128</span><span class="dash__cap">シナリオ</span></div>
+    <div><span class="dash__big is-ok">127</span><span class="dash__cap">PASS</span></div>
+    <div><span class="dash__big">4</span><span class="dash__cap">デバイス</span></div>
+  </div>
+  <ul class="dash__runs" role="list">
+    {
+      runs.map((r) => (
+        <li class={`run run--${r.status}`}>
+          <span class="run__icon">{r.status === 'pass' ? <Icon name="check" /> : <i />}</span>
+          <span class="run__name">{r.name}</span>
+          <span class="run__device">{r.device}</span>
+          <span class="run__status">{label[r.status]}</span>
+        </li>
+      ))
+    }
+  </ul>
+</div>
+
+<style>
+  @layer components {
+    .dash {
+      border-radius: var(--r-lg);
+      border: 1px solid var(--c-line-strong);
+      background: var(--c-bg);
+      font-family: var(--font-mono);
+      font-size: var(--fs-xs);
+      overflow: clip;
+      box-shadow: var(--edge), 0 1.5rem 3rem -1.5rem rgb(0 0 0 / 0.8);
+    }
+    .dash__bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--sp-3);
+      padding: var(--sp-3) var(--sp-4);
+      border-block-end: 1px solid var(--c-line);
+      color: var(--c-text-subtle);
+    }
+    .dash__sim {
+      padding: 0 0.6em;
+      border: 1px solid var(--c-line-strong);
+      border-radius: var(--r-pill);
+      color: var(--c-text-muted);
+      white-space: nowrap;
+    }
+    .dash__summary {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      border-block-end: 1px solid var(--c-line);
+    }
+    .dash__summary > div {
+      display: grid;
+      gap: 0.2em;
+      padding: var(--sp-4);
+    }
+    .dash__summary > div + div {
+      border-inline-start: 1px solid var(--c-line);
+    }
+    .dash__big {
+      font-family: var(--font-sans);
+      font-size: var(--fs-2xl);
+      font-weight: 700;
+      line-height: 1;
+      color: var(--c-text);
+    }
+    .dash__big.is-ok {
+      color: var(--c-brand-hi);
+    }
+    .dash__cap {
+      color: var(--c-text-subtle);
+    }
+    .dash__runs {
+      display: grid;
+    }
+    .run {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      grid-template-areas: 'icon name status' 'icon device status';
+      align-items: center;
+      column-gap: var(--sp-3);
+      padding: var(--sp-3) var(--sp-4);
+      border-block-end: 1px solid var(--c-line);
+      color: var(--c-text-muted);
+    }
+    .run:last-child {
+      border-block-end: 0;
+    }
+    @media (min-width: 30em) {
+      .run {
+        grid-template-columns: auto minmax(0, 1fr) 6em 6.5em;
+        grid-template-areas: 'icon name device status';
+      }
+    }
+    .run__icon {
+      grid-area: icon;
+      display: inline-grid;
+      place-items: center;
+      inline-size: 1.4rem;
+      block-size: 1.4rem;
+      border-radius: 50%;
+      background: rgb(132 186 63 / 0.12);
+      color: var(--c-brand);
+    }
+    .run__icon i {
+      inline-size: 0.6rem;
+      block-size: 0.6rem;
+      border-radius: 50%;
+      background: var(--c-line-strong);
+    }
+    .run--run .run__icon i {
+      background: var(--c-brand);
+      box-shadow: 0 0 0.6rem var(--c-brand);
+    }
+    .run__name {
+      grid-area: name;
+      color: var(--c-text);
+      font-family: var(--font-sans);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .run__device {
+      grid-area: device;
+    }
+    .run__status {
+      grid-area: status;
+      text-align: end;
+      letter-spacing: 0.08em;
+    }
+    .run--pass .run__status {
+      color: var(--c-brand-hi);
+    }
+    .run--run .run__status {
+      color: var(--c-text);
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .run--run .run__icon i {
+        animation: blink 1.2s steps(2, jump-none) infinite;
+      }
+    }
+    @keyframes blink {
+      50% {
+        opacity: 0.3;
+      }
+    }
+  }
+</style>

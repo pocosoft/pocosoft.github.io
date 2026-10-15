@@ -1,0 +1,62 @@
+---
+import Ja from '../ui/Ja.astro';
+import type { Step } from '../../data/services';
+
+interface Props {
+  steps: Step[];
+  label: string;
+}
+const { steps, label } = Astro.props;
+---
+
+<ol class="flow" aria-label={label}>
+  {
+    steps.map((s, i) => (
+      <li class="flow__step" data-reveal style={`--i:${i}`}>
+        <span class="flow__no">{String(i + 1).padStart(2, '0')}</span>
+        <h4 class="flow__title">{s.title}</h4>
+        <p class="flow__text">
+          <Ja text={s.text} />
+        </p>
+      </li>
+    ))
+  }
+</ol>
+
+<style>
+  @layer components {
+    .flow {
+      list-style: none;
+      padding: 0;
+      display: grid;
+      gap: var(--sp-3);
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
+      counter-reset: flow;
+    }
+    .flow__step {
+      position: relative;
+      display: grid;
+      gap: var(--sp-2);
+      align-content: start;
+      padding: var(--sp-5);
+      border-radius: var(--r-md);
+      border: 1px solid var(--c-line);
+      background: var(--c-bg);
+    }
+    .flow__no {
+      font-family: var(--font-mono);
+      font-size: var(--fs-xs);
+      color: var(--c-brand);
+      letter-spacing: 0.1em;
+    }
+    .flow__title {
+      font-size: var(--fs-md);
+    }
+    .flow__text {
+      color: var(--c-text-muted);
+      font-size: var(--fs-sm);
+      word-break: keep-all;
+      overflow-wrap: anywhere;
+    }
+  }
+</style>

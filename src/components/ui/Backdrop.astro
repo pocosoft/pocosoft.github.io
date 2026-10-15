@@ -1,0 +1,53 @@
+---
+interface Props {
+  variant?: 'hero' | 'section' | 'cta';
+}
+const { variant = 'section' } = Astro.props;
+---
+
+<div class:list={['backdrop', `backdrop--${variant}`]} aria-hidden="true">
+  <div class="backdrop__grid"></div>
+  <div class="backdrop__glow"></div>
+</div>
+
+<style>
+  @layer components {
+    .backdrop {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: clip;
+      z-index: 0;
+    }
+    .backdrop__grid {
+      position: absolute;
+      inset: 0;
+      --_cell: clamp(2.5rem, 2rem + 2vw, 4.5rem);
+      background-image:
+        linear-gradient(to right, rgb(132 186 63 / 0.07) 1px, transparent 1px),
+        linear-gradient(to bottom, rgb(132 186 63 / 0.07) 1px, transparent 1px);
+      background-size: var(--_cell) var(--_cell);
+      background-position: center top;
+      mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 20%, transparent 75%);
+    }
+    .backdrop__glow {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 50% 40% at 70% 30%, rgb(132 186 63 / 0.16), transparent 70%),
+        radial-gradient(ellipse 40% 35% at 15% 80%, rgb(1 100 53 / 0.35), transparent 70%);
+    }
+    .backdrop--section .backdrop__grid {
+      mask-image: radial-gradient(ellipse 60% 50% at 50% 0%, #000 10%, transparent 70%);
+    }
+    .backdrop--section .backdrop__glow {
+      background: radial-gradient(ellipse 45% 35% at 50% 0%, rgb(132 186 63 / 0.12), transparent 70%);
+    }
+    .backdrop--cta .backdrop__grid {
+      mask-image: radial-gradient(ellipse 55% 60% at 50% 50%, #000 10%, transparent 75%);
+    }
+    .backdrop--cta .backdrop__glow {
+      background: radial-gradient(ellipse 50% 50% at 50% 50%, rgb(132 186 63 / 0.18), transparent 70%);
+    }
+  }
+</style>

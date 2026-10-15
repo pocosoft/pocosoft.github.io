@@ -1,0 +1,43 @@
+---
+import { site } from '../../data/site';
+import { address, corporateNumber, foundingDate } from '../../data/company';
+
+interface Props {
+  isHome?: boolean;
+}
+const { isHome = false } = Astro.props;
+
+const org = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  '@id': `${site.url}/#organization`,
+  name: site.name,
+  alternateName: ['ポコソフト', 'Pocosoft'],
+  url: `${site.url}/`,
+  logo: `${site.url}/icon-512.png`,
+  foundingDate,
+  address: {
+    '@type': 'PostalAddress',
+    postalCode: address.postalCode,
+    addressRegion: address.region,
+    addressLocality: address.locality,
+    streetAddress: address.street,
+    addressCountry: 'JP',
+  },
+  identifier: { '@type': 'PropertyValue', propertyID: '法人番号', value: corporateNumber },
+  contactPoint: { '@type': 'ContactPoint', contactType: 'customer support', url: site.contactUrl, availableLanguage: 'ja' },
+};
+
+const website = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: site.name,
+  url: `${site.url}/`,
+  inLanguage: 'ja',
+  publisher: { '@id': `${site.url}/#organization` },
+};
+
+const data = isHome ? [org, website] : [org];
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(data)} />

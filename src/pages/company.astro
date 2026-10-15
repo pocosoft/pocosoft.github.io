@@ -1,0 +1,55 @@
+---
+import SubpageLayout from '../layouts/SubpageLayout.astro';
+import Eyebrow from '../components/ui/Eyebrow.astro';
+import ProfileList from '../components/company/ProfileList.astro';
+import Timeline from '../components/company/Timeline.astro';
+import { pages } from '../lib/seo';
+---
+
+<SubpageLayout
+  page={pages.company}
+  eyebrow="COMPANY"
+  title="会社概要"
+  lead="埼玉県春日部市から、AIを休ませない開発環境をつくっています。"
+>
+  <section class="section" aria-labelledby="profile-title">
+    <div class="container company-grid">
+      <header class="company-grid__head">
+        <Eyebrow index="01">PROFILE</Eyebrow>
+        <h2 id="profile-title" class="section-head__title">会社情報</h2>
+      </header>
+      <ProfileList />
+    </div>
+  </section>
+  <section class="section section--raise" aria-labelledby="history-title">
+    <div class="container company-grid">
+      <header class="company-grid__head">
+        <Eyebrow index="02">HISTORY</Eyebrow>
+        <h2 id="history-title" class="section-head__title">沿革</h2>
+      </header>
+      <Timeline />
+    </div>
+  </section>
+</SubpageLayout>
+
+<style>
+  .company-grid {
+    display: grid;
+    gap: var(--sp-6);
+  }
+  .company-grid__head {
+    display: grid;
+    gap: var(--sp-3);
+    align-content: start;
+  }
+  @media (min-width: 64em) {
+    .company-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2.2fr);
+      gap: var(--sp-8);
+    }
+    .company-grid__head {
+      position: sticky;
+      inset-block-start: calc(var(--header-h) + var(--sp-6));
+    }
+  }
+</style>

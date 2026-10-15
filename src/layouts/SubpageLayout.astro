@@ -1,0 +1,58 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Backdrop from '../components/ui/Backdrop.astro';
+import Eyebrow from '../components/ui/Eyebrow.astro';
+import Ja from '../components/ui/Ja.astro';
+import ContactCta from '../components/home/ContactCta.astro';
+import type { PageMeta } from '../lib/seo';
+
+interface Props {
+  page: PageMeta;
+  eyebrow: string;
+  title: string;
+  lead: string;
+  cta?: { href: string; label: string };
+}
+const { page, eyebrow, title, lead, cta } = Astro.props;
+---
+
+<BaseLayout page={page}>
+  <section class="page-hero">
+    <Backdrop variant="hero" />
+    <div class="container page-hero__inner">
+      <Eyebrow>{eyebrow}</Eyebrow>
+      <h1 class="page-hero__title">{title}</h1>
+      <p class="page-hero__lead"><Ja text={lead} /></p>
+    </div>
+  </section>
+  <slot />
+  <ContactCta secondary={cta} />
+</BaseLayout>
+
+<style>
+  @layer components {
+    .page-hero {
+      position: relative;
+      isolation: isolate;
+      padding-block: calc(var(--header-h) + clamp(var(--sp-8), 2rem + 6vw, var(--sp-10))) clamp(var(--sp-7), 1.5rem + 4vw, var(--sp-9));
+      border-block-end: 1px solid var(--c-line);
+    }
+    .page-hero__inner {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: var(--sp-4);
+    }
+    .page-hero__title {
+      font-size: var(--fs-3xl);
+      line-height: var(--lh-display);
+    }
+    .page-hero__lead {
+      color: var(--c-text-muted);
+      font-size: var(--fs-lg);
+      word-break: keep-all;
+      overflow-wrap: anywhere;
+      max-inline-size: 30em;
+    }
+  }
+</style>

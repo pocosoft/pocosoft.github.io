@@ -1,0 +1,112 @@
+---
+import Eyebrow from '../ui/Eyebrow.astro';
+import Ja from '../ui/Ja.astro';
+import { sesWorks, projectWorks } from '../../data/works';
+
+interface Props {
+  index: number;
+}
+const { index } = Astro.props;
+---
+
+<section id="works" class="section section--raise" aria-labelledby="works-title">
+  <div class="container">
+    <header class="section-head">
+      <Eyebrow index={String(index).padStart(2, '0')}>WORKS</Eyebrow>
+      <h2 id="works-title" class="section-head__title">実績</h2>
+      <p class="section-head__lead">
+        <Ja text="SES・開発支援で参画したプロジェクトの一部です。守秘義務のため、業種と役割のみを記載しています。" />
+      </p>
+    </header>
+    <h3 class="works__sub">SES・開発支援</h3>
+    <ul class="works" role="list">
+      {
+        sesWorks.map((w, i) => (
+          <li class="work" data-reveal style={`--i:${i % 4}`}>
+            <p class="work__role">{w.role}</p>
+            <h4 class="work__title">{w.title}</h4>
+            <ul class="work__tasks" role="list">
+              {w.tasks.map((t) => (
+                <li>{t}</li>
+              ))}
+            </ul>
+          </li>
+        ))
+      }
+    </ul>
+    <h3 class="works__sub">受託開発</h3>
+    <ul class="works works--compact" role="list">
+      {
+        projectWorks.map((w, i) => (
+          <li class="work" data-reveal style={`--i:${i}`}>
+            <h4 class="work__title">{w.title}</h4>
+            <p class="work__scope">{w.scope}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  @layer components {
+    .works__sub {
+      font-size: var(--fs-lg);
+      margin-block: var(--sp-7) var(--sp-4);
+    }
+    .works__sub:first-of-type {
+      margin-block-start: 0;
+    }
+    .works {
+      display: grid;
+      gap: var(--sp-4);
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
+    }
+    .work {
+      display: grid;
+      gap: var(--sp-2);
+      align-content: start;
+      padding: var(--sp-5);
+      border-radius: var(--r-md);
+      border: 1px solid var(--c-line);
+      background: var(--c-surface);
+    }
+    .work__role {
+      justify-self: start;
+      padding: 0 0.7em;
+      border-radius: var(--r-pill);
+      background: rgb(132 186 63 / 0.1);
+      border: 1px solid rgb(132 186 63 / 0.35);
+      color: var(--c-brand-hi);
+      font-size: var(--fs-xs);
+      line-height: 1.8;
+    }
+    .work__title {
+      font-size: var(--fs-md);
+    }
+    .work__tasks {
+      display: grid;
+      gap: var(--sp-1);
+      margin-block-start: var(--sp-2);
+      color: var(--c-text-muted);
+      font-size: var(--fs-sm);
+    }
+    .work__tasks li {
+      display: flex;
+      gap: 0.6em;
+    }
+    .work__tasks li::before {
+      content: '';
+      flex: none;
+      inline-size: 0.35em;
+      block-size: 0.35em;
+      margin-block-start: 0.75em;
+      border-radius: 50%;
+      background: var(--c-brand);
+    }
+    .work__scope {
+      color: var(--c-text-muted);
+      font-size: var(--fs-sm);
+    }
+  }
+</style>

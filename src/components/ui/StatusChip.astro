@@ -1,0 +1,61 @@
+---
+interface Props {
+  label?: string;
+  tone?: 'run' | 'calm';
+  class?: string;
+}
+const { label = 'RUNNING 24/7', tone = 'run', class: className } = Astro.props;
+---
+
+<span class:list={['chip', `chip--${tone}`, className]}>
+  <span class="chip__dot" aria-hidden="true"></span>
+  <span class="chip__label">{label}</span>
+</span>
+
+<style>
+  @layer components {
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6em;
+      padding: 0.3em 0.9em 0.3em 0.75em;
+      border: 1px solid rgb(132 186 63 / 0.35);
+      border-radius: var(--r-pill);
+      background: rgb(132 186 63 / 0.08);
+      color: var(--c-brand-hi);
+      font-family: var(--font-mono);
+      font-size: var(--fs-xs);
+      letter-spacing: 0.08em;
+      line-height: 1.6;
+      white-space: nowrap;
+    }
+    .chip--calm {
+      border-color: var(--c-line-strong);
+      background: var(--c-surface);
+      color: var(--c-text-muted);
+    }
+    .chip__dot {
+      inline-size: 0.5em;
+      block-size: 0.5em;
+      border-radius: 50%;
+      background: currentColor;
+      box-shadow: 0 0 0 0 currentColor;
+    }
+    .chip--run .chip__dot {
+      background: var(--c-brand);
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .chip--run .chip__dot {
+        animation: chip-pulse 1.8s var(--ease-out) infinite;
+      }
+    }
+    @keyframes chip-pulse {
+      0% {
+        box-shadow: 0 0 0 0 rgb(132 186 63 / 0.7);
+      }
+      100% {
+        box-shadow: 0 0 0 0.6em rgb(132 186 63 / 0);
+      }
+    }
+  }
+</style>

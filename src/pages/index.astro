@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/home/Hero.astro';
+import Statement from '../components/home/Statement.astro';
+import Mechanism from '../components/home/Mechanism.astro';
+import BusinessBento from '../components/home/BusinessBento.astro';
+import Results from '../components/home/Results.astro';
+import ContactCta from '../components/home/ContactCta.astro';
+import { pages } from '../lib/seo';
+---
+
+<BaseLayout page={pages.home} isHome>
+  <Hero />
+  <Statement />
+  <Mechanism />
+  <BusinessBento />
+  <Results />
+  <ContactCta />
+</BaseLayout>

@@ -1,0 +1,84 @@
+---
+import SubpageLayout from '../layouts/SubpageLayout.astro';
+import SubNav from '../components/business/SubNav.astro';
+import ServiceSection from '../components/business/ServiceSection.astro';
+import CaseStudy from '../components/business/CaseStudy.astro';
+import TestDashboardMock from '../components/business/TestDashboardMock.astro';
+import WorksList from '../components/business/WorksList.astro';
+import ProductCard from '../components/business/ProductCard.astro';
+import TechStack from '../components/business/TechStack.astro';
+import Eyebrow from '../components/ui/Eyebrow.astro';
+import Ja from '../components/ui/Ja.astro';
+import { serviceById } from '../data/services';
+import { products } from '../data/products';
+import { pages } from '../lib/seo';
+
+const subnav = [
+  { id: 'ses', label: 'SES' },
+  { id: 'works', label: '実績' },
+  { id: 'game', label: 'ゲーム制作' },
+  { id: 'ai-testing', label: 'AI動作確認支援' },
+  { id: 'ai-dev', label: '環境構築支援' },
+  { id: 'products', label: 'プロダクト' },
+];
+---
+
+<SubpageLayout
+  page={pages.business}
+  eyebrow="BUSINESS"
+  title="事業内容"
+  lead="AIを休ませない開発環境を軸に、4つの事業を展開しています。"
+  cta={{ href: '/company.html', label: '会社概要を見る' }}
+>
+  <SubNav items={subnav} />
+  <ServiceSection service={serviceById('ses')} index={1}>
+    <TechStack />
+  </ServiceSection>
+  <WorksList index={2} />
+  <ServiceSection service={serviceById('game')} index={3}>
+    <CaseStudy />
+  </ServiceSection>
+  <ServiceSection service={serviceById('ai-testing')} index={4} raise>
+    <TestDashboardMock />
+  </ServiceSection>
+  <ServiceSection service={serviceById('ai-dev')} index={5} />
+  <section id="products" class="section section--raise" aria-labelledby="products-title">
+    <div class="container">
+      <header class="section-head">
+        <Eyebrow index="06">PRODUCTS</Eyebrow>
+        <h2 id="products-title" class="section-head__title">自社プロダクト</h2>
+        <p class="section-head__lead">
+          <Ja text="自社サービスとして、スマートフォンアプリ・デスクトップアプリ・ゲームを開発・運営しています。" />
+        </p>
+      </header>
+      <ul class="products" role="list">
+        {
+          products.map((p, i) => (
+            <li data-reveal style={`--i:${i}`}>
+              <ProductCard product={p} />
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+</SubpageLayout>
+
+<style>
+  .products {
+    display: grid;
+    gap: var(--sp-4);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+  }
+  .products > li {
+    display: grid;
+  }
+  :global(#game),
+  :global(#ai-testing),
+  :global(#ai-dev),
+  :global(#ses),
+  :global(#works),
+  :global(#products) {
+    scroll-margin-block-start: 3.5rem;
+  }
+</style>

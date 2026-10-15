@@ -1,0 +1,96 @@
+---
+import Button from '../ui/Button.astro';
+import Backdrop from '../ui/Backdrop.astro';
+import Eyebrow from '../ui/Eyebrow.astro';
+import Ja from '../ui/Ja.astro';
+import { site } from '../../data/site';
+
+interface Props {
+  secondary?: { href: string; label: string };
+}
+const { secondary = { href: '/business.html', label: '事業内容を見る' } } = Astro.props;
+---
+
+<section class="section cta" aria-labelledby="cta-title">
+  <div class="container">
+    <div class="cta__panel" data-reveal>
+      <Backdrop variant="cta" />
+      <div class="cta__ring" aria-hidden="true"></div>
+      <div class="cta__body">
+        <Eyebrow>CONTACT</Eyebrow>
+        <h2 id="cta-title" class="cta__title"><Ja text="あなたの|チームでも、|AIを|休ませない。" /></h2>
+        <p class="cta__text">
+          <Ja text="エンジニアの参画から、ゲーム制作、AIによる動作確認、AIがフル稼働する開発環境の構築まで。まずはお気軽にご相談ください。" />
+        </p>
+        <div class="cta__actions">
+          <Button href={site.contactUrl} size="lg" external>お問い合わせフォーム</Button>
+          <Button href={secondary.href} variant="ghost" size="lg">{secondary.label}</Button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  @layer components {
+    .cta {
+      padding-block-start: calc(var(--section-y) * 0.4);
+    }
+    .cta__panel {
+      position: relative;
+      isolation: isolate;
+      overflow: clip;
+      border-radius: var(--r-xl);
+      border: 1px solid var(--c-line-strong);
+      background: var(--c-surface);
+      padding: clamp(var(--sp-7), 1.5rem + 5vw, var(--sp-10)) clamp(1.25rem, 0.5rem + 4vw, var(--sp-9));
+      text-align: center;
+    }
+    .cta__ring {
+      position: absolute;
+      inset: 50% auto auto 50%;
+      inline-size: 140%;
+      aspect-ratio: 1;
+      translate: -50% -50%;
+      background: conic-gradient(from 0deg, transparent 0deg, rgb(132 186 63 / 0.25) 40deg, transparent 90deg, transparent 180deg, rgb(126 195 128 / 0.18) 220deg, transparent 270deg);
+      z-index: -1;
+      mask-image: radial-gradient(circle, transparent 30%, #000 31%, #000 50%, transparent 70%);
+      opacity: 0.8;
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .cta__ring {
+        animation: cta-spin 14s linear infinite;
+      }
+    }
+    @keyframes cta-spin {
+      to {
+        rotate: 1turn;
+      }
+    }
+    .cta__body {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      justify-items: center;
+      gap: var(--sp-5);
+    }
+    .cta__title {
+      font-size: clamp(1.75rem, 1rem + 3.8vw, 4.25rem);
+      line-height: var(--lh-display);
+      max-inline-size: 18em;
+    }
+    .cta__text {
+      color: var(--c-text-muted);
+      font-size: var(--fs-md);
+      max-inline-size: 32em;
+    }
+    .cta__actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: var(--sp-3);
+      margin-block-start: var(--sp-3);
+    }
+  }
+</style>

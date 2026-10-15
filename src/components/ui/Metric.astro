@@ -1,0 +1,84 @@
+---
+import { formatValue, isPending, type Metric } from '../../data/metrics';
+
+interface Props {
+  metric: Metric;
+}
+const { metric } = Astro.props;
+const pending = isPending(metric.value);
+if (import.meta.env.PROD && pending && process.env.ALLOW_TODO !== '1') {
+  throw new Error(`実績の数値が未入力です: ${metric.id}（src/data/metrics.ts）`);
+}
+const pillarLabel = { speed: 'SPEED', quality: 'QUALITY', cost: 'COST' }[metric.pillar];
+---
+
+<div class="metric">
+  <p class="metric__pillar">{pillarLabel}</p>
+  <p class="metric__value">
+    {
+      pending ? (
+        <span class="metric__todo">TODO</span>
+      ) : (
+        <span class="metric__num" data-count={metric.value} data-decimals={metric.decimals ?? 0}>
+          {formatValue(metric)}
+        </span>
+      )
+    }
+    <span class="metric__unit">{metric.unit}</span>
+  </p>
+  <p class="metric__label">{metric.label}</p>
+  {metric.note && <p class="metric__note">{metric.note}</p>}
+</div>
+
+<style>
+  @layer components {
+    .metric {
+      display: grid;
+      gap: var(--sp-2);
+      align-content: start;
+    }
+    .metric__pillar {
+      font-family: var(--font-mono);
+      font-size: var(--fs-xs);
+      letter-spacing: 0.14em;
+      color: var(--c-brand);
+    }
+    .metric__value {
+      display: flex;
+      align-items: baseline;
+      gap: 0.25em;
+      line-height: 1;
+      font-weight: 700;
+    }
+    .metric__num {
+      font-family: var(--font-sans);
+      font-size: var(--fs-metric);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.03em;
+      background: linear-gradient(180deg, var(--c-text) 30%, var(--c-brand-light));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .metric__unit {
+      font-size: var(--fs-lg);
+      color: var(--c-text-muted);
+    }
+    .metric__label {
+      color: var(--c-text-muted);
+      font-size: var(--fs-sm);
+    }
+    .metric__note {
+      color: var(--c-text-subtle);
+      font-size: var(--fs-xs);
+    }
+    .metric__todo {
+      font-family: var(--font-mono);
+      font-size: var(--fs-2xl);
+      color: var(--c-danger);
+      border: 2px dashed currentColor;
+      border-radius: var(--r-sm);
+      padding: 0.1em 0.4em;
+    }
+  }
+</style>

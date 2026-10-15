@@ -1,0 +1,34 @@
+---
+import { site } from '../../data/site';
+import { canonicalOf, type PageMeta } from '../../lib/seo';
+
+interface Props {
+  page: PageMeta;
+}
+const { page } = Astro.props;
+const canonical = canonicalOf(page.path);
+const ogImage = canonicalOf('/og/default.png');
+---
+
+<title>{page.title}</title>
+<meta name="description" content={page.description} />
+{page.noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
+<meta name="theme-color" content={site.themeColor} />
+<meta name="color-scheme" content="dark" />
+<meta name="format-detection" content="telephone=no" />
+<link rel="icon" href="/favicon.ico" sizes="48x48" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<link rel="manifest" href="/site.webmanifest" />
+<link rel="sitemap" href="/sitemap.xml" />
+
+<meta property="og:type" content={page.path === '/' ? 'website' : 'article'} />
+<meta property="og:site_name" content={site.name} />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:title" content={page.title} />
+<meta property="og:description" content={page.description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="AIに、休みはない。株式会社ポコソフト" />
+<meta name="twitter:card" content="summary_large_image" />

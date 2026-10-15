@@ -1,0 +1,81 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  href: string;
+  variant?: 'primary' | 'ghost';
+  size?: 'md' | 'lg' | 'sm';
+  external?: boolean;
+  class?: string;
+}
+const { href, variant = 'primary', size = 'md', external = false, class: className } = Astro.props;
+---
+
+<a
+  href={href}
+  class:list={['btn', `btn--${variant}`, `btn--${size}`, className]}
+  {...external ? { target: '_blank', rel: 'noopener' } : {}}
+>
+  <span class="btn__label"><slot /></span>
+  {external ? <Icon name="external" /> : <Icon name="arrow" class="btn__arrow" />}
+  {external && <span class="sr-only">（新しいタブで開きます）</span>}
+</a>
+
+<style>
+  @layer components {
+    .btn {
+      --_h: var(--tap);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6em;
+      min-block-size: var(--_h);
+      padding-inline: 1.4em;
+      border-radius: var(--r-pill);
+      font-weight: 700;
+      font-size: var(--fs-sm);
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      text-align: center;
+      max-inline-size: 100%;
+      transition:
+        background-color var(--dur-2) var(--ease-out),
+        box-shadow var(--dur-2) var(--ease-out),
+        border-color var(--dur-2) var(--ease-out),
+        color var(--dur-2) var(--ease-out);
+    }
+    .btn--lg {
+      --_h: 3.5rem;
+      font-size: var(--fs-md);
+      padding-inline: clamp(1.1em, 0.5em + 2vw, 1.8em);
+    }
+    .btn--sm {
+      --_h: 2.75rem;
+      padding-inline: 1.15em;
+    }
+    .btn--primary {
+      background: var(--c-brand);
+      color: var(--c-on-brand);
+      box-shadow: 0 0 0 1px rgb(255 255 255 / 0.12) inset, 0 0.5rem 2rem -0.5rem var(--glow);
+    }
+    .btn--primary:hover {
+      background: var(--c-brand-hi);
+      box-shadow: 0 0 0 1px rgb(255 255 255 / 0.2) inset, 0 0.75rem 2.5rem -0.5rem var(--glow);
+    }
+    .btn--ghost {
+      color: var(--c-text);
+      border: 1px solid var(--c-line-strong);
+      background: rgb(16 25 18 / 0.6);
+    }
+    .btn--ghost:hover {
+      border-color: var(--c-brand);
+      color: var(--c-brand-hi);
+    }
+    .btn :global(.btn__arrow) {
+      transition: translate var(--dur-2) var(--ease-out);
+    }
+    .btn:hover :global(.btn__arrow) {
+      translate: 0.2em 0;
+    }
+  }
+</style>

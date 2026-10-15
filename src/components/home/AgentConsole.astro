@@ -1,0 +1,161 @@
+---
+import { consoleLines } from '../../data/console-lines';
+
+const KIND_LABEL = { plan: 'PLAN', impl: 'IMPL', test: 'TEST', pass: 'PASS', ship: 'SHIP' } as const;
+// JS が動かない環境でも様子がわかるよう、最初の数行を描画しておく（時刻は深夜の例）
+const initial = consoleLines.slice(0, 6);
+const times = ['02:14:03', '02:14:05', '02:14:08', '02:14:09', '02:14:12', '02:14:15'];
+---
+
+<div class="console" data-agent-console aria-hidden="true">
+  <div class="console__bar">
+    <span class="console__dots"><i></i><i></i><i></i></span>
+    <span class="console__title">agents — pocosoft/dev-loop</span>
+    <span class="console__sim">動作イメージ</span>
+  </div>
+  <ul class="console__lines" data-console-lines data-start={initial.length}>
+    {
+      initial.map((l, i) => (
+        <li class={`line line--${l.kind}`}>
+          <span class="line__time">{times[i]}</span>
+          <span class="line__tag">{KIND_LABEL[l.kind]}</span>
+          <span class="line__agent">{l.agent}</span>
+          <span class="line__text">{l.text}</span>
+        </li>
+      ))
+    }
+  </ul>
+  <div class="console__foot">
+    <span><span class="console__live"></span>4 agents running</span>
+    <span>JST <span data-console-clock>02:14:15</span></span>
+  </div>
+</div>
+
+<style>
+  @layer components {
+    .console {
+      --line-h: 1.9rem;
+      position: relative;
+      inline-size: 100%;
+      border: 1px solid var(--c-line-strong);
+      border-radius: var(--r-lg);
+      background: linear-gradient(180deg, rgb(16 25 18 / 0.82), rgb(7 11 8 / 0.88));
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: var(--edge), 0 2rem 4rem -2rem rgb(0 0 0 / 0.8), 0 0 0 1px rgb(132 186 63 / 0.06);
+      font-family: var(--font-mono);
+      font-size: var(--fs-xs);
+      line-height: var(--lh-mono);
+      overflow: clip;
+    }
+    .console__bar,
+    .console__foot {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-3);
+      padding: var(--sp-3) var(--sp-4);
+      color: var(--c-text-subtle);
+      white-space: nowrap;
+    }
+    .console__bar {
+      border-block-end: 1px solid var(--c-line);
+    }
+    .console__foot {
+      flex-wrap: wrap;
+      row-gap: var(--sp-1);
+      justify-content: space-between;
+      border-block-start: 1px solid var(--c-line);
+    }
+    .console__dots {
+      display: inline-flex;
+      gap: 0.35rem;
+    }
+    .console__dots i {
+      inline-size: 0.6rem;
+      block-size: 0.6rem;
+      border-radius: 50%;
+      background: var(--c-line-strong);
+    }
+    .console__title {
+      flex: 1;
+      min-inline-size: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .console__sim {
+      flex: none;
+      padding: 0 0.6em;
+      border: 1px solid var(--c-line-strong);
+      border-radius: var(--r-pill);
+      color: var(--c-text-muted);
+    }
+    .console__lines {
+      --max-lines: 3;
+      list-style: none;
+      padding: var(--sp-3) var(--sp-4);
+      block-size: calc(var(--max-lines) * var(--line-h) + var(--sp-3) * 2);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+    @media (min-width: 40em) {
+      .console__lines {
+        --max-lines: 6;
+      }
+    }
+    .console__lines :global(.line) {
+      display: flex;
+      align-items: baseline;
+      gap: 0.75em;
+      block-size: var(--line-h);
+      white-space: nowrap;
+      color: var(--c-text-muted);
+      flex: none;
+    }
+    .console__lines :global(.line__time) {
+      color: var(--c-text-subtle);
+      flex: none;
+    }
+    .console__lines :global(.line__tag) {
+      flex: none;
+      inline-size: 4ch;
+      color: var(--c-brand-light);
+    }
+    .console__lines :global(.line--pass .line__tag),
+    .console__lines :global(.line--ship .line__tag) {
+      color: var(--c-brand-hi);
+    }
+    .console__lines :global(.line__agent) {
+      flex: none;
+      color: var(--c-text);
+    }
+    .console__lines :global(.line__text) {
+      min-inline-size: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .console__lines :global(.line--pass .line__text) {
+      color: var(--c-brand-hi);
+    }
+    .console__lines :global(.line__text.is-typing)::after {
+      content: '▍';
+      color: var(--c-brand);
+      margin-inline-start: 0.1em;
+    }
+    @media (max-width: 30em) {
+      .console__lines :global(.line__time) {
+        display: none;
+      }
+    }
+    .console__live {
+      display: inline-block;
+      inline-size: 0.5rem;
+      block-size: 0.5rem;
+      margin-inline-end: 0.5em;
+      border-radius: 50%;
+      background: var(--c-brand);
+      box-shadow: 0 0 0.6rem var(--c-brand);
+    }
+  }
+</style>

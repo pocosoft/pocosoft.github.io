@@ -1,0 +1,38 @@
+---
+interface Props {
+  index?: string;
+  class?: string;
+}
+const { index, class: className } = Astro.props;
+---
+
+<p class:list={['eyebrow', className]}>
+  {index && <span class="eyebrow__index">{index}</span>}
+  <span><slot /></span>
+</p>
+
+<style>
+  @layer components {
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75em;
+      font-family: var(--font-mono);
+      font-size: var(--fs-xs);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--c-brand);
+      line-height: 1.6;
+    }
+    .eyebrow::before {
+      content: '';
+      inline-size: 1.5em;
+      block-size: 1px;
+      background: currentColor;
+      opacity: 0.6;
+    }
+    .eyebrow__index {
+      color: var(--c-text-subtle);
+    }
+  }
+</style>

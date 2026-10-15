@@ -1,0 +1,13 @@
+---
+import { jaPhrases } from '../../lib/ja';
+
+interface Props {
+  text: string;
+}
+// 文節の区切りに <wbr> を入れる。親要素に word-break: keep-all を指定して使う。
+// text に「|」を含めると、BudouX を使わずその位置だけで区切る
+const { text } = Astro.props;
+const phrases = text.includes('|') ? text.split('|') : jaPhrases(text);
+---
+
+{phrases.map((p, i) => (i === 0 ? p : <><wbr />{p}</>))}

@@ -1,0 +1,122 @@
+---
+import Eyebrow from '../ui/Eyebrow.astro';
+import Icon from '../ui/Icon.astro';
+import Ja from '../ui/Ja.astro';
+import FlowSteps from './FlowSteps.astro';
+import type { Service } from '../../data/services';
+
+interface Props {
+  service: Service;
+  index: number;
+  raise?: boolean;
+}
+const { service: s, index, raise = false } = Astro.props;
+const hasVisual = Astro.slots.has('default');
+---
+
+<section id={s.id} class:list={['section', 'svc', { 'section--raise': raise }]} aria-labelledby={`${s.id}-title`}>
+  <div class="container">
+    <header class="svc__head">
+      <div class="svc__meta">
+        <Eyebrow index={String(index).padStart(2, '0')}>{s.code}</Eyebrow>
+      </div>
+      <h2 id={`${s.id}-title`} class="svc__title"><Ja text={s.title} /></h2>
+      <p class="svc__lead"><Ja text={s.lead} /></p>
+    </header>
+    <div class:list={['svc__body', { 'has-visual': hasVisual }]}>
+      <div class="svc__points" data-reveal>
+        <h3 class="svc__sub">対応範囲</h3>
+        <ul role="list">
+          {
+            s.points.map((p) => (
+              <li>
+                <Icon name="check" />
+                <span>{p}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      {
+        hasVisual && (
+          <div class="svc__visual" data-reveal style="--i:1">
+            <slot />
+          </div>
+        )
+      }
+    </div>
+    {
+      s.flow && (
+        <div class="svc__flow">
+          <h3 class="svc__sub">進め方</h3>
+          <FlowSteps steps={s.flow} label={`${s.title}の進め方`} />
+        </div>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  @layer components {
+    .svc__head {
+      display: grid;
+      gap: var(--sp-4);
+      margin-block-end: var(--sp-7);
+    }
+    .svc__meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--sp-3);
+    }
+    .svc__title {
+      font-size: var(--fs-3xl);
+      line-height: var(--lh-display);
+    }
+    .svc__lead {
+      color: var(--c-text-muted);
+      font-size: var(--fs-md);
+      max-inline-size: 40em;
+      word-break: keep-all;
+      overflow-wrap: anywhere;
+    }
+    .svc__body {
+      display: grid;
+      gap: var(--sp-6);
+      align-items: start;
+    }
+    @media (min-width: 64em) {
+      .svc__body.has-visual {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+        gap: var(--sp-8);
+      }
+    }
+    .svc__sub {
+      font-family: var(--font-mono);
+      font-size: var(--fs-xs);
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      color: var(--c-text-subtle);
+      margin-block-end: var(--sp-4);
+    }
+    .svc__points ul {
+      display: grid;
+      border-block-start: 1px solid var(--c-line);
+    }
+    .svc__points li {
+      display: flex;
+      align-items: baseline;
+      gap: var(--sp-3);
+      padding-block: var(--sp-3);
+      border-block-end: 1px solid var(--c-line);
+      font-size: var(--fs-md);
+    }
+    .svc__points li :global(.icon) {
+      color: var(--c-brand);
+      translate: 0 0.15em;
+    }
+    .svc__flow {
+      margin-block-start: var(--sp-7);
+    }
+  }
+</style>

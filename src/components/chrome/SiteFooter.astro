@@ -1,0 +1,164 @@
+---
+import Logo from './Logo.astro';
+import StatusChip from '../ui/StatusChip.astro';
+import { site } from '../../data/site';
+import { profile } from '../../data/company';
+import { services } from '../../data/services';
+import { products } from '../../data/products';
+
+const addressText = profile.find((p) => p.term === '住所')!.desc;
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__top">
+      <div class="site-footer__brand">
+        <Logo size="lg" />
+        <p class="site-footer__tagline">AIに、休みはない。</p>
+        <StatusChip label="ALL SYSTEMS RUNNING" />
+      </div>
+      <nav class="site-footer__nav" aria-label="フッター">
+        <div>
+          <p class="site-footer__heading">サイト</p>
+          <ul role="list">
+            <li><a href="/">トップ</a></li>
+            <li><a href="/business.html">事業内容</a></li>
+            <li><a href="/business.html#works">実績</a></li>
+            <li><a href="/company.html">会社概要</a></li>
+            <li>
+              <a href={site.contactUrl} target="_blank" rel="noopener">お問い合わせ<span class="sr-only">（新しいタブで開きます）</span></a>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <p class="site-footer__heading">事業</p>
+          <ul role="list">
+            {services.map((s) => <li><a href={`/business.html#${s.id}`}>{s.title}</a></li>)}
+          </ul>
+        </div>
+        <div>
+          <p class="site-footer__heading">プロダクト</p>
+          <ul role="list">
+            {products.map((p) => <li><a href={`/business.html#product-${p.id}`}>{p.name}</a></li>)}
+            <li><a href="/pocomemo/privacy/ja.html">PocoMemo プライバシーポリシー</a></li>
+            <li><a href="/pocomemo/terms/ja.html">PocoMemo 利用規約</a></li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+    <div class="site-footer__bottom">
+      <address>
+        <span>{site.name}</span>
+        <span>{addressText}</span>
+      </address>
+      <p class="site-footer__note">当サイトはアクセス解析のため Google アナリティクスを利用しています。</p>
+      <p class="site-footer__copy"><small>&copy; {year} Pocosoft Inc.</small></p>
+    </div>
+  </div>
+  <p class="site-footer__wordmark" aria-hidden="true" data-overflow-ok>Pocosoft<span>.</span></p>
+</footer>
+
+<style>
+  @layer components {
+    .site-footer {
+      position: relative;
+      overflow: clip;
+      border-block-start: 1px solid var(--c-line);
+      padding-block-start: var(--sp-9);
+      background: linear-gradient(180deg, var(--c-bg) 0%, var(--c-bg-raise) 100%);
+    }
+    .site-footer__top {
+      display: grid;
+      gap: var(--sp-8);
+    }
+    @media (min-width: 64em) {
+      .site-footer__top {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+      }
+    }
+    .site-footer__brand {
+      display: grid;
+      gap: var(--sp-4);
+      justify-items: start;
+      align-content: start;
+    }
+    .site-footer__tagline {
+      color: var(--c-text-muted);
+    }
+    .site-footer__nav {
+      display: grid;
+      gap: var(--sp-6);
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+    }
+    .site-footer__heading {
+      font-family: var(--font-mono);
+      font-size: var(--fs-xs);
+      letter-spacing: 0.14em;
+      color: var(--c-text-subtle);
+      margin-block-end: var(--sp-3);
+    }
+    .site-footer__nav ul {
+      display: grid;
+      gap: var(--sp-1);
+    }
+    .site-footer__nav a {
+      display: inline-flex;
+      align-items: center;
+      min-block-size: 2.25rem;
+      color: var(--c-text-muted);
+      font-size: var(--fs-sm);
+      text-decoration: none;
+    }
+    .site-footer__nav a:hover {
+      color: var(--c-brand-hi);
+    }
+    .site-footer__bottom {
+      display: grid;
+      gap: var(--sp-3);
+      margin-block-start: var(--sp-8);
+      padding-block: var(--sp-6);
+      border-block-start: 1px solid var(--c-line);
+      color: var(--c-text-subtle);
+      font-size: var(--fs-xs);
+    }
+    @media (min-width: 64em) {
+      .site-footer__bottom {
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+        gap: var(--sp-6);
+      }
+    }
+    .site-footer__bottom address {
+      font-style: normal;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0 1em;
+      color: var(--c-text-muted);
+    }
+    .site-footer__note {
+      max-inline-size: none;
+    }
+    .site-footer__copy small {
+      font-size: inherit;
+      font-family: var(--font-mono);
+    }
+    .site-footer__wordmark {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: min(17vw, 20rem);
+      line-height: 0.8;
+      letter-spacing: -0.04em;
+      text-align: center;
+      white-space: nowrap;
+      max-inline-size: none;
+      margin-block-start: var(--sp-6);
+      margin-block-end: -0.12em;
+      background: linear-gradient(180deg, rgb(132 186 63 / 0.22), rgb(132 186 63 / 0));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      user-select: none;
+    }
+  }
+</style>
