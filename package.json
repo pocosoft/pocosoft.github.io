@@ -1,0 +1,19 @@
+{
+  "name": "pocosoft-official-site",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test:e2e": "playwright test",
+    "chromatic": "chromatic --playwright"
+  },
+  "devDependencies": {
+    "@chromatic-com/playwright": "^1.0.0",
+    "@playwright/test": "^1.64.1",
+    "chromatic": "^18.14.1"
+  },
+  "overrides": {
+    "@chromatic-com/playwright": {
+      "storybook": "10.6.2"
+    }
+  }
+}

@@ -12,3 +12,11 @@ _site/
 
 # Log files
 *.log
+
+# Playwright / Chromatic
+node_modules/
+test-results/
+playwright-report/
+chromatic-diagnostics.json
+chromatic-build-*.xml
+storybook-static/

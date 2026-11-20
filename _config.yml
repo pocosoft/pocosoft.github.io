@@ -4,3 +4,19 @@ url: "https://pocosoft.github.io"
 
 include:
   - app-ads.txt
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - tests
+  - test-results
+  - playwright-report
+  - playwright.config.ts
+  - package.json
+  - package-lock.json
+  - chromatic-diagnostics.json
+  - "chromatic-build-*.xml"
+  - "*.log"
+  - storybook-static
